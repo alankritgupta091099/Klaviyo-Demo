@@ -6,6 +6,9 @@ import Dashboard from './pages/dashboard.js';
 import Flow from './pages/flows.js';
 import FlowLayout from './pages/createFlowLayout.js';
 import Email from './pages/email.js';
+import Campaigns from './pages/campaigns.js';
+import CampaignCreate from './pages/createCampaigns.js';
+import CampaignMail from './pages/campaignMail.js';
 import EmailTemplate from './pages/createEmailLayout.js';
 import Register from './pages/userRegister.js';
 import Login from './pages/userLogin.js';
@@ -34,6 +37,9 @@ class App extends React.Component {
         <ProtectedRoute exact path="/" component={Dashboard} />
         <ProtectedRoute exact path="/logout" component={Logout} />
         <ProtectedRoute exact path="/flow" component={Flow} />
+        <ProtectedRoute exact path="/campaigns" component={Campaigns} />
+        <ProtectedRoute exact path="/campaigns/create" component={CampaignCreate} />
+        <ProtectedRoute exact path="/campaigns/create/mail-content" component={CampaignMail}/>
         <ProtectedRoute exact path="/flow/create" component={FlowLayout} />
         <ProtectedRoute exact path="/email-templates" component={Email} />
         <ProtectedRoute exact path="/email-templates/create" component={EmailTemplate} />    

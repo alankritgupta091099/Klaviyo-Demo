@@ -36,7 +36,7 @@ export class Login extends Component {
             }
         }
         if(this.props.isAuthenticated && this.props.token)
-            this.props.history.push('/')        
+            this.props.history.push('/campaigns/create/mail-content')        
     }
     onChange(e){
         this.setState({[e.target.name]:e.target.value})

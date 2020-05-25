@@ -3,10 +3,12 @@ import authReducer from './authReducer';
 import popUpReducer from './popUpReducer';
 import flowReducer from './flowReducer';
 import emailReducer from './emailReducer';
+import campaignReducer from './campaignReducer';
 
 export default combineReducers({
     auth:authReducer,
     popUp:popUpReducer,
     flow:flowReducer,
-    email:emailReducer
+    email:emailReducer,
+    campaign:campaignReducer
 })

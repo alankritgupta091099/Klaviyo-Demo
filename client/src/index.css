@@ -3,10 +3,10 @@ body{
     font-family: proxima-nova,Lato,"Helvetica Neue",Helvetica,Arial,sans-serif;
     line-height: 18px;
 }
-a{
+/* a{
     text-decoration:none;
     color:white
-}
+} */
 .modalbutton{
     position:absolute;
     background:rgb(43, 152, 211); 
@@ -16,10 +16,10 @@ a{
     background-color: #1170A3;
     color:white
 }
-a:hover{
+/* a:hover{
     text-decoration:none;
     color:white
-}
+} */
 .placed-component-body{
     display: flex;
     width: 100%;
@@ -418,4 +418,14 @@ a:hover{
     top:8px;
     right: 0;
     cursor: pointer;
+}
+/* Campaign */
+.campaignHead a{
+    text-decoration: none;
+    color: black;
+}
+.campaignHead a:hover{
+    text-decoration: underline;
+    color: #6A89BE;
+    font-weight: 550;
 }

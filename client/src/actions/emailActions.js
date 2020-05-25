@@ -39,7 +39,7 @@ export const loadEmailList = () => {
     return async ( dispatch , getState ) => {
         await axios.get(`${API_URL}/emails/loadAll/${getState().auth.user._id} `,tokenConfig(getState))
         .then(item=>{
-            //console.log(item.data);
+            console.log(item.data);
             (item.data) ? dispatch({
                 type:LOAD_ALL_EMAILS,
                 payload: item.data

@@ -15,7 +15,7 @@ import { MainSidebarItem } from "./MainSidebarItem"
             <MainSidebarItem
                 text="Campaigns"
                 id='campaigns'
-                href='/'
+                href='/campaigns'
             />
             <MainSidebarItem
                 text="Flows"
