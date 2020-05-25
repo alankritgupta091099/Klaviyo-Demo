@@ -16,6 +16,8 @@
     "immutability-helper": "^3.0.2",
     "jquery": "^3.5.1",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.0.1",
+    "react-bootstrap-modal": "^4.2.0",
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^10.0.2",
     "react-dom": "^16.13.1",
