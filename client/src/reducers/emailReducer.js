@@ -4,7 +4,8 @@ const initialState={
     email_name: null,
     email_id: null,
     email_body: null,
-    allemails:[]
+    allemails:[],
+    email_html: '',
 }
 
 export default function ( state = initialState , action ){
@@ -12,7 +13,8 @@ export default function ( state = initialState , action ){
          case UPDATE_EMAIL:
             return {
                 ...state,
-                email_body:action.payload
+                email_body:action.payload.design,
+                email_html:action.payload.html
             };
         case INITIALIZE_EMAIL:
             return {
@@ -28,6 +30,7 @@ export default function ( state = initialState , action ){
         case LOAD_SELECTED_EMAIL:
             return{
                 ...state,
+                email_html:action.paylaod.email_html,
                 email_name:action.paylaod.email_name,
                 email_id:action.paylaod.email_id,
                 email_body:action.paylaod.email_body

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { withRouter , Link } from 'react-router-dom';
-import { Container, Row, Col , Table , Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Container, Row, Col , Table , Modal, ModalHeader, ModalBody, ModalFooter ,Form} from 'reactstrap';
 
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
-import { initializeCampaign } from '../actions/campaignActions.js';
+import { initializeCampaign , loadCampaignList , deleteCampaign , loadSelectedCampaign } from '../actions/campaignActions.js';
 
 class campaigns extends Component {
     constructor(props) {
@@ -42,6 +42,22 @@ class campaigns extends Component {
         this.toggle();
         this.props.history.push('/campaigns/create')
     }    
+    componentWillReceiveProps(nextProps){
+        if(this.props.user===null) this.props.loadCampaignList();       
+        this.setState({
+            campaignList:nextProps.campaigns
+        })
+    }
+
+    onDeleteClick = ( id ) => {
+        this.props.deleteCampaign(id);
+    }
+
+    onEditClick = async( id ) => {
+        await this.props.loadSelectedCampaign(id);
+        //this.props.history.push('/email-templates/create')
+    }
+
     render() {
         return (
             <>
@@ -71,15 +87,15 @@ class campaigns extends Component {
                                 <Table hover borderless>
                                 <tbody>
                                 { 
-                                (this.state.flowList)?this.state.flowList.map((obj)=>{
+                                 (this.state.campaignList)?this.state.campaignList.map((obj)=>{
                                     return(
-                                    <tr key={obj.flow.flow_id}>
+                                        <tr key={obj.campaign.campaign_id}>
                                     <Col>
-                                        <td>{obj.flow.flow_name}</td>
+                                    <td>{obj.campaign.campaign_name}</td>
                                     </Col>   
                                         <td>
-                                        <button className="btn btnTable" onClick={this.onDeleteClick.bind(this,obj.flow.flow_id)} >Delete</button>
-                                        <button className="btn btnTable" onClick={this.onEditClick.bind(this,obj.flow.flow_id)}>Edit</button>
+                                        <button className="btn btnTable" onClick={this.onDeleteClick.bind(this,obj.campaign.campaign_id)} >Delete</button>
+                                        <button className="btn btnTable" onClick={this.onEditClick.bind(this,obj.campaign.campaign_id)}>Edit</button>
                                         </td>  
                                     </tr>
                                     )
@@ -90,7 +106,7 @@ class campaigns extends Component {
                             </div>              
                         </div>
                         <Modal isOpen={this.state.modal} toggle={this.toggle} >
-                            <form onSubmit={this.onSubmit}>
+                            <Form onSubmit={this.onSubmit}>
                                 <ModalHeader toggle={this.toggle}>Create Campaign</ModalHeader>
                                 <ModalBody>
                                 <div className="form-group">
@@ -107,11 +123,11 @@ class campaigns extends Component {
                                 </ModalBody>
                                 <ModalFooter>
                                 <button onClick={this.onSubmit}  className="btn modalbutton">
-                                    <Link to="/flow/create">Create Campaign</Link>
+                                Create Campaign
                                 </button>
                                 <button onClick={this.toggle}>Cancel</button>
                                 </ModalFooter>
-                            </form>
+                            </Form>
                         </Modal>  
                     </div>
                     </Col>
@@ -124,7 +140,7 @@ class campaigns extends Component {
 
 const mapStateToProps = state => ({
     user:state.auth.user,
-    flow:state.flow.allFlows
+    campaigns:state.campaign.allcampaigns
 })
 
-export default connect( mapStateToProps , { initializeCampaign } )( campaigns );
+export default connect( mapStateToProps , { initializeCampaign , loadCampaignList , deleteCampaign , loadSelectedCampaign } )( campaigns );
