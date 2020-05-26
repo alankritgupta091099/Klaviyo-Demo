@@ -12,19 +12,20 @@ export const initializeEmail = (newEmail) => dispatch =>{
     })
 }
 
-export const saveEmail = ( email_body ) => ( dispatch , getState ) =>{
+export const saveEmail = ( data ) => ( dispatch , getState ) =>{
     axios.post(`${API_URL}/emails/save`,{
         user:getState().auth.user,
         email:{
             email_id:getState().email.email_id,
             email_name:getState().email.email_name,
-            email_body:email_body
+            email_body:data.design,
+            email_html:data.html,
         }
     } , tokenConfig(getState) )
     .then(res=>{
         dispatch({
             type:UPDATE_EMAIL,
-            payload:email_body
+            payload:data
         })
         dispatch(returnNotifications("Template Saved"))
         //console.log(res.data)

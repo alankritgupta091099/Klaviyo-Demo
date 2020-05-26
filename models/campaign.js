@@ -20,6 +20,6 @@ const campaignSchema = new mongoose.Schema({
         type:Date,
         default:Date.now()
     }
-});
+},{ minimize: false });
 
 module.exports = mongoose.model('Campaign', campaignSchema);

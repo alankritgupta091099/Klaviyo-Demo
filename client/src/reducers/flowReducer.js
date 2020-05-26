@@ -37,7 +37,7 @@ export default function ( state = initialState , action ) {
         case NO_FLOWS:
             return {
                 ...state,
-                allFlows:null
+                allFlows:[]
             };
         case DELETE_FLOW:
             return{

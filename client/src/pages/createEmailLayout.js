@@ -21,7 +21,7 @@ const EmailTemplate = (props) => {
     const onLoad = () => editor.current.loadDesign(mail)
 
     const saveDesign = () => {
-        editor.current.saveDesign(design => {
+        editor.current.exportHtml(design => {
             props.saveEmail(design);
         })
     }
