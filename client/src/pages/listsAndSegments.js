@@ -3,10 +3,16 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { withRouter , Link } from 'react-router-dom';
 import { Container, Row, Col , Table , Modal, ModalHeader, ModalBody, ModalFooter , Button } from 'reactstrap';
+import {
+  Card, CardImg, CardText, CardBody,
+  CardTitle, CardSubtitle
+} from 'reactstrap';
+import {faList,faBolt} from '@fortawesome/free-solid-svg-icons'
 
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
 import { initializeFlow , loadFlowList , deleteFlow , loadSelectedFlow } from '../actions/flowActions.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Flow extends React.Component {
   
@@ -91,15 +97,35 @@ class Flow extends React.Component {
             </Table>
               </div>              
              </div>
-            <Modal isOpen={this.state.modal} toggle={this.toggle} >
+            <Modal isOpen={this.state.modal} toggle={this.toggle}  >
                 <ModalHeader toggle={this.toggle}>Create List or Segment</ModalHeader>
                 <ModalBody>
                   <Row>
-                    <Col>
-                        <Button onClick={()=>{this.props.history.push('/list/create')}}>Create List</Button>
+                    <Col sm="6">
+
+                        <button class="demo" onClick={()=>{this.props.history.push('/list/create')}}>
+                        <Card body className="text-center">
+                        <CardBody>
+                        <CardTitle><FontAwesomeIcon icon={faList} size="lg" /></CardTitle>
+                          <CardSubtitle><strong>List</strong></CardSubtitle>
+                          <CardText>Paste from a spreadsheet,upload a file,or choose from people already in Klaviyo.</CardText>
+          
+                             </CardBody>
+                              </Card>
+                        </button>
                     </Col>
-                    <Col>
-                        <Button onClick={()=>{this.props.history.push('/segment/create')}}>Create Segment</Button>
+                    <Col sm="6">
+                        <button class="demo" onClick={()=>{this.props.history.push('/segment/create')}}>
+                        <Card body className="text-center">
+        
+                        <CardBody >
+                        <CardTitle><FontAwesomeIcon icon={faBolt} size="lg" /></CardTitle>
+                          <CardSubtitle><strong>Segment</strong></CardSubtitle>
+                          <CardText>A dynamic segment of people based on their behaviour or properties.</CardText>
+          
+                             </CardBody>
+                              </Card>
+                              </button>
                     </Col>
                   </Row>
                 </ModalBody>

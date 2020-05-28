@@ -9,6 +9,8 @@ import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
 import { SegmentItem , SegmentItemOR } from '../components/listsAndSegment/SegmentItem.js';
 import { saveSegment } from '../actions/segmentActions.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
 class createSegment extends Component {
     constructor(props) {
@@ -78,21 +80,21 @@ class createSegment extends Component {
                     </Row>
                     </div>
                     <hr/>
-                    <div className="Card-Table" style={{padding:'30px'}}>
+                    <div id="segment-del" className="Card-Table" style={{padding:'30px'}}>
                         <div className="Card-Table-Inner">
                             <Form onSubmit={this.onSubmit}>
                                 <Row form>
                                     <Col xs={8}>
                                     <FormGroup>
-                                        <Label>Name</Label>
-                                        <Input type="text" name="segment_name" onChange={this.onChange} placeholder="Enter Segment Name" />
+                                        <Label><strong>Name</strong></Label>
+                                        <Input bsSize="sm" type="text" name="segment_name" onChange={this.onChange} placeholder="Enter Segment Name" />
                                     </FormGroup>
                                     </Col>
                                     <Col xs={4}>
                                     <FormGroup>
-                                        <Label>Tag</Label>
-                                        <Input type="select" name="campaignTag" disabled>
-                                            <option>Default Select</option>
+                                        <Label><strong>Tag</strong></Label>
+                                        <Input bsSize="sm" type="select" name="campaignTag" disabled>
+                                            <option>Select tags...</option>
                                         </Input>
                                     </FormGroup>
                                     </Col>
@@ -100,7 +102,8 @@ class createSegment extends Component {
                                 <Row>
                                     <Col>
                                     <FormGroup>
-                                        <Label>Defination</Label>                                        
+                                        <Label><strong>Definitions</strong></Label> 
+                                                           
                                     </FormGroup>
                                     </Col>
                                 </Row>
@@ -108,22 +111,26 @@ class createSegment extends Component {
                                     this.state.arr.map(item=>{
                                             return (
                                             <div>
+                                            <div class="new-seg-item">
                                                 <Row>
                                                     <SegmentItemOR AND_id={item.AND_id} saveAndComponent={this.saveAndComponent}/>
                                                 </Row>
+                                                </div>
                                                 <Row>
                                                     <Col>
-                                                        <Button onClick={this.addAndComponent} >AND</Button>
+                                                        <div class="segment-items"><Button  color="light" onClick={this.addAndComponent} size="sm" ><FontAwesomeIcon icon={faPlus} /><span id="segment-del"> <strong>AND</strong></span></Button></div>
                                                     </Col>
                                                     <Col>
-                                                        <Button onClick={this.removeAndComponent.bind(this,item.AND_id)}>Remove</Button>
+                                                        <div class="segment-items"><Button color="light" size="sm" onClick={this.removeAndComponent.bind(this,item.AND_id)}><span id="segment-del"><strong>Remove</strong></span></Button></div>
+                                                        
                                                     </Col>
                                                 </Row>
                                             </div>
                                         )
                                     })
                                 }
-                                <Button onClick={this.onSubmit}>Save Segment</Button>                            
+                                <div class="del"> <Button color="primary" size="sm" onClick={this.onSubmit} ><span id="segment-del"><strong>Save Segment</strong></span></Button></div>
+                                                           
                             </Form>
                         </div>
                     </div>

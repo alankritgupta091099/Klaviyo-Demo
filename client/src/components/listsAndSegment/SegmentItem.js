@@ -3,6 +3,8 @@ import { Row, Col , Button , Dropdown, DropdownToggle, DropdownMenu, DropdownIte
 import { v4 as uuidv4 } from 'uuid';
 
 import { SegmentConditions } from './List&SegmentData.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faTrash} from '@fortawesome/free-solid-svg-icons'
 
 export class SegmentItem extends Component {
     constructor(props) {
@@ -52,15 +54,20 @@ export class SegmentItem extends Component {
 
     render() {
         return (
-            <div key={this.props.OR_id}>
+            <div id="segments-del" key={this.props.OR_id}>
+            
             <Row>
+            
                 <Col>
-                    <Dropdown isOpen={this.state.modalCondition} toggle={this.toggle}>
-                        <DropdownToggle caret>
+                
+                    <Dropdown  size="sm" isOpen={this.state.modalCondition} toggle={this.toggle}>
+                        <div class="seg-selector">
+                        <DropdownToggle color="light" caret size="lg" block>
                             {
                                 (this.state.ddVal) ? this.state.ddVal.text : "Select A Condition"
                             }
                         </DropdownToggle>
+                        </div>
                         <DropdownMenu>
                             {
                                 SegmentConditions.map( ( condition , index ) => { 
@@ -75,22 +82,30 @@ export class SegmentItem extends Component {
                         </DropdownMenu>
                     </Dropdown>
                 </Col>
+                <div class="del-icon">
                 <Col>
-                    <Button onClick={()=>{
+                
+                    <Button color="light" onClick={()=>{
                         this.setState({ddVal:""})
                         this.props.removeVal(this.props.OR_id)
-                    }}>Clear</Button>
+                    }}><FontAwesomeIcon icon={faTrash} /></Button>
+                   
                 </Col>
-            </Row>            
+                </div>
+            </Row>
+                     
             {
                 (()=>{
                     if(this.state.ddVal.id===1){
                         return(
+                            
                             <Row>
-                                <Label><strong>Has</strong></Label>
+                                
+                                <span class="segment-text"><Label><strong>Has</strong></Label></span>
+                                
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.metricVal) ? this.state.metricVal : "Choose Metric"
                                             }
@@ -114,7 +129,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret block>
                                             {
                                                 (this.state.freqVal) ? this.state.freqVal : "Choose Frequency"
                                             }
@@ -138,7 +153,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal3} toggle={()=>this.setState({modal3:!this.state.modal3})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.timeVal) ? this.state.timeVal : "Choose Time"
                                             }
@@ -160,15 +175,17 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>
-                                <Button onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color = "light" onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
+                            
+                           
                         )
                     } else if(this.state.ddVal.id===2){
                         return(
                             <Row>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.dimensionVal) ? this.state.dimensionVal : "Dimensions"
                                             }
@@ -192,7 +209,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.conditionVal) ? this.state.conditionVal : "Choose Condition"
                                             }
@@ -220,10 +237,10 @@ export class SegmentItem extends Component {
                                         // this.props.saveVal("DimensionValue",null,this.state.dim,this.props.OR_id,this.state.ddVal.id) =====>>shows value undefined
                                     }} placeholder="Dimension Value" />
                                 </Col>
-                                <Label><strong>Type:</strong></Label>
+                                <span class="segment-text"><Label><strong>Type:</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal3} toggle={()=>this.setState({modal3:!this.state.modal3})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.typeVal) ? this.state.typeVal : "Choose Type"
                                             }
@@ -245,16 +262,16 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>
-                                <Button onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     } else if(this.state.ddVal.id===3){
                         return(
                             <Row>
-                                <Label><strong>Location</strong></Label>
+                                <span class="segment-text"><Label><strong>Location</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.locationVal) ? this.state.locationVal : "Select"
                                             }
@@ -276,10 +293,10 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>
-                                <Label><strong>Location</strong></Label>
+                                <span class="segment-text"><Label><strong>Location</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.regionVal) ? this.state.regionVal : "Choose region.."
                                             }
@@ -301,16 +318,16 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>                                
-                                <Button onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     } else if(this.state.ddVal.id===4){
                         return(
                             <Row>
-                                <Label><strong>Person</strong></Label>
+                            <span class="segment-text"><Label><strong>Person</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.personVal) ? this.state.personVal :"Select"
                                             }
@@ -332,13 +349,13 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>
-                                <Label><strong>Within</strong></Label>
+                                <span class="segment-text"><Label><strong>Within</strong></Label></span>
                                 <Col>
                                     <Input type="text" value={this.state.within} onChange={()=>this.setState({within:this.state.within})} />
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal3} toggle={()=>this.setState({modal3:!this.state.modal3})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.dimensionVal2) ? this.state.dimensionVal2 : "Choose Dimensions"
                                             }
@@ -360,14 +377,14 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>
-                                <Label><strong>of</strong></Label>
+                                <span class="segment-text"><Label><strong>of</strong></Label></span>
                                 <Col>
                                     <Input type="text" value={this.state.of} onChange={()=>this.setState({of:this.state.of})} placeholder="Postal/Zip Code"/>
                                 </Col>
-                                <Label><strong>in</strong></Label>
+                                <span class="segment-text"><Label><strong>in</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.countryVal) ? this.state.countryVal : "Choose country"
                                             }
@@ -389,16 +406,16 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>                                
-                                <Button onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     } else if(this.state.ddVal.id===5){
                         return(
                             <Row>
-                                <Label><strong>Person</strong></Label>
+                            <span class="segment-text"><Label><strong>Person</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.personVal) ? this.state.personVal : "Select"
                                             }
@@ -420,10 +437,10 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>
-                                <Label><strong>in</strong></Label>
+                                <span class="segment-text"><Label><strong>in</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.listVal) ? this.state.listVal : "Choose a list.."
                                             }
@@ -445,16 +462,17 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>                                
-                                <Button onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     } else if(this.state.ddVal.id===6){
                         return(
                             <Row>
-                                <Label><strong>Person</strong></Label>
+                            <span class="segment-text"><Label><strong>Person</strong></Label></span>
                                 <Col>
+                                <div class="condition-6">
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.personVal) ? this.state.personVal : "Select"
                                             }
@@ -475,18 +493,19 @@ export class SegmentItem extends Component {
                                             }                        
                                         </DropdownMenu>
                                     </Dropdown>
+                                    </div>
                                 </Col>
-                                <Label><strong>supressed</strong></Label>                               
-                                <Button onClick={this.props.addOrComponent}>OR</Button>
+                                <div class="suppressed-text"><Label><strong>suppressed</strong></Label></div>                              
+                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     } else if(this.state.ddVal.id===7){
                         return(
                             <Row>
-                                <Label><strong>Person</strong></Label>
+                            <span class="segment-text"><Label><strong>Person</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.attributeVal) ? this.state.attributeVal : "Choose Attribute"
                                             }
@@ -510,7 +529,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.personVal) ? this.state.personVal : "Select"
                                             }
@@ -534,7 +553,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal3} toggle={()=>this.setState({modal3:!this.state.modal3})}>
-                                        <DropdownToggle caret>
+                                        <DropdownToggle color="light" caret>
                                             {
                                                 (this.state.possibilityVal) ? this.state.possibilityVal : this.state.ddVal.possibility[0]
                                             }
@@ -556,7 +575,7 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>                         
-                                <Button onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     }
