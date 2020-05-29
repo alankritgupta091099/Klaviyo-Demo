@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter , Redirect , Link} from 'react-router-dom';
+import { Redirect , Link} from 'react-router-dom';
 import { Container, Row, Col , Alert , Button, Form, FormGroup, Label, Input , InputGroup ,
 InputGroupAddon } from 'reactstrap';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +11,15 @@ import { SegmentItem , SegmentItemOR } from '../components/listsAndSegment/Segme
 import { saveSegment , nameSegment } from '../actions/segmentActions.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
+
+const style={
+    color:'#373F51', 
+    border: '1px solid #dfe3e6' , 
+    borderRadius:'0' , 
+    height: '40px' , 
+    display: 'inline-table', 
+    boxSizing: 'border-box'
+}
 
 class createSegment extends Component {
     constructor(props) {
@@ -83,7 +92,8 @@ class createSegment extends Component {
                 arr:[{AND_id:uuidv4()}]
             })
         }
-        return (
+
+        if(this.props.segment_id) return (
             <>
             <Container fluid={true}>
              <NavComp/>            
@@ -101,7 +111,7 @@ class createSegment extends Component {
                     </Row>
                     </div>
                     <hr/>
-                    <div id="segment-del" className="Card-Table" style={{padding:'30px'}}>
+                    <div id="segment-del" style={{padding:'30px'}}>
                         <div className="Card-Table-Inner">
                             <Form onSubmit={this.onSubmit}>
                                 <Row form>
@@ -131,27 +141,41 @@ class createSegment extends Component {
                                     this.state.arr.map(item=>{
                                             return (
                                             <div>
-                                            <div class="new-seg-item">
-                                                <Row>
-                                                    <SegmentItemOR item={item} saveAndComponent={this.saveAndComponent}/>
-                                                </Row>
+                                                <div className="ANDcard">
+                                                    <div class="new-seg-item">
+                                                        <Row>
+                                                            <SegmentItemOR item={item} saveAndComponent={this.saveAndComponent}/>
+                                                        </Row>
+                                                    </div>
+                                                    <Row>
+                                                        <Col>
+                                                            <div class="segment-items">
+                                                                <Button  color="light" style={{...style,width:'100px'}} onClick={this.addAndComponent} >
+                                                                    <FontAwesomeIcon icon={faPlus} />
+                                                                    <span id="segment-del"> <strong>AND</strong></span>
+                                                                </Button>
+                                                            </div>
+                                                        </Col>
+                                                        <Col>
+                                                            <div class="segment-items"><Button color="light" style={{...style,width:'100px'}} onClick={this.removeAndComponent.bind(this,item.AND_id)}><span id="segment-del"><strong>Remove</strong></span></Button></div>
+                                                        </Col>
+                                                    </Row>
                                                 </div>
-                                                <Row>
-                                                    <Col>
-                                                        <div class="segment-items"><Button  color="light" onClick={this.addAndComponent} size="sm" ><FontAwesomeIcon icon={faPlus} /><span id="segment-del"> <strong>AND</strong></span></Button></div>
-                                                    </Col>
-                                                    <Col>
-                                                        <div class="segment-items"><Button color="light" size="sm" onClick={this.removeAndComponent.bind(this,item.AND_id)}><span id="segment-del"><strong>Remove</strong></span></Button></div>
-                                                        
-                                                    </Col>
-                                                </Row>
-                                            </div>
+                                                {
+                                                    (this.state.arr[this.state.arr.length-1].AND_id!=item.AND_id)?<p style={{margin:'35px 0', color:'rgba(98, 111, 126, 0.66)'}}>AND  --------------------------------------------------------------------------------------------------------------------------------------------------</p>:""
+                                                }
+                                            </div>                                            
                                         )
                                     })
                                 }
-
-                                <Button color="secondary" size="sm" onClick={()=>this.props.history.push('/lists-campaigns')}>Back</Button>                           
-                                <div class="del"> <Button color="primary" size="sm" onClick={this.onSubmit} ><span id="segment-del"><strong>Save Segment</strong></span></Button></div>
+                                <br/>
+                                <Row>            
+                                <Col style={{marginLeft:'70%'}}>
+                                    <Button color="secondary" size="md" onClick={()=>this.props.history.push('/lists-campaigns')}>Back</Button>  
+                                
+                                    <Button color="primary" size="md"  style={{marginLeft:'40px'}} onClick={this.onSubmit} ><span id="segment-del"><strong>Save Segment</strong></span></Button>
+                                </Col>
+                                </Row>
                             </Form>
                         </div>
                     </div>
@@ -161,12 +185,14 @@ class createSegment extends Component {
             </Container>
             </>
         )
+        else return <Redirect to="/lists-campaigns"/>
     }
 }
 
 const mapStateToProps = state => ({
     segment_name:state.segment.segment_name,
-    segment_body:state.segment.segment_body
+    segment_body:state.segment.segment_body,
+    segment_id:state.segment.segment_id
 })
 
 export default connect( mapStateToProps , { saveSegment , nameSegment })(createSegment);

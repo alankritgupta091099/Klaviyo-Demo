@@ -6,7 +6,17 @@ import { SegmentConditions } from './List&SegmentData.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faTrash} from '@fortawesome/free-solid-svg-icons'
 
+const style={
+    color:'#373F51', 
+    border: '1px solid #dfe3e6' , 
+    borderRadius:'0' , 
+    height: '40px' , 
+    display: 'inline-table', 
+    boxSizing: 'border-box'
+}
+
 export class SegmentItem extends Component {
+
     constructor(props) {
         super(props)
     
@@ -19,7 +29,7 @@ export class SegmentItem extends Component {
         }
         this.toggle = this.toggle.bind(this);
     }
-    
+
     toggle(){
         this.setState({
             modalCondition: !this.state.modalCondition
@@ -131,14 +141,11 @@ export class SegmentItem extends Component {
     render() {
         return (
             <div id="segments-del" key={this.props.OR_id}>
-            
-            <Row>
-            
-                <Col>
-                
-                    <Dropdown  size="sm" isOpen={this.state.modalCondition} toggle={this.toggle}>
+            <Row>            
+                <Col>                
+                    <Dropdown  isOpen={this.state.modalCondition} toggle={this.toggle}>
                         <div class="seg-selector">
-                        <DropdownToggle color="light" caret size="lg" block>
+                        <DropdownToggle color="light" style={{...style, width:'600px'}} caret block>
                             {
                                 (this.state.ddVal) ? this.state.ddVal.text : "Select A Condition"
                             }
@@ -149,8 +156,7 @@ export class SegmentItem extends Component {
                                 SegmentConditions.map( ( condition , index ) => { 
                                     return(
                                         <>  
-                                            <DropdownItem divider />
-                                            <DropdownItem key={index} value={condition} onClick={this.changeValue.bind(this,condition)}>{condition.text}</DropdownItem>
+                                            <DropdownItem key={index} value={condition} onClick={this.changeValue.bind(this,condition)} style={{ height: '40px' , width:'600px', borderTop:'1px solid #ebeeef'}}>{condition.text}</DropdownItem>
                                         </>
                                     )
                                 })
@@ -159,13 +165,11 @@ export class SegmentItem extends Component {
                     </Dropdown>
                 </Col>
                 <div class="del-icon">
-                <Col>
-                
-                    <Button color="light" onClick={()=>{
+                <Col>                
+                    <Button color="light" style={{...style, width:'50px'}} onClick={()=>{
                         this.setState({ddVal:""})
                         this.props.removeVal(this.props.OR_id)
-                    }}><FontAwesomeIcon icon={faTrash} /></Button>
-                   
+                    }}><FontAwesomeIcon icon={faTrash} /></Button>                   
                 </Col>
                 </div>
             </Row>
@@ -173,15 +177,12 @@ export class SegmentItem extends Component {
             {
                 (()=>{
                     if(this.state.ddVal.id===1){
-                        return(
-                            
-                            <Row>
-                                
-                                <span class="segment-text"><Label><strong>Has</strong></Label></span>
-                                
+                        return(                            
+                            <Row>                                
+                                <Col><span class="segment-text"><Label><strong>Has</strong></Label></span></Col>                                
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'14rem'}} caret>
                                             {
                                                 (this.state.metricVal) ? this.state.metricVal : "Choose Metric"
                                             }
@@ -205,7 +206,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle color="light" caret block>
+                                        <DropdownToggle color="light" style={{...style,width:'14rem'}} caret block>
                                             {
                                                 (this.state.freqVal) ? this.state.freqVal : "Choose Frequency"
                                             }
@@ -229,7 +230,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal3} toggle={()=>this.setState({modal3:!this.state.modal3})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'14rem'}} caret>
                                             {
                                                 (this.state.timeVal) ? this.state.timeVal : "Choose Time"
                                             }
@@ -251,7 +252,8 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>
-                                <Button color = "light" onClick={this.props.addOrComponent}>OR</Button>
+                                <Col>
+                                <Button color = "light" style={{...style, width:'50px'}} onClick={this.props.addOrComponent}>OR</Button></Col>
                             </Row>
                             
                            
@@ -261,7 +263,7 @@ export class SegmentItem extends Component {
                             <Row>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'10rem'}} caret>
                                             {
                                                 (this.state.dimensionVal) ? this.state.dimensionVal : "Dimensions"
                                             }
@@ -285,7 +287,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'10.5rem'}} caret>
                                             {
                                                 (this.state.conditionVal) ? this.state.conditionVal : "Choose Condition"
                                             }
@@ -308,15 +310,17 @@ export class SegmentItem extends Component {
                                     </Dropdown>
                                 </Col>
                                 <Col>
-                                    <Input type="text" value={this.state.dim} onChange={()=>{
+                                    <span class="segment-text"><Label><strong>Type:</strong></Label></span>
+                                </Col>
+                                <Col>
+                                    <Input type="text" style={{...style, width:'170px', marginLeft:'-10px'}} value={this.state.dim} onChange={()=>{
                                         this.setState({dim:this.state.dim})
                                         // this.props.saveVal("DimensionValue",null,this.state.dim,this.props.OR_id,this.state.ddVal.id) =====>>shows value undefined
                                     }} placeholder="Dimension Value" />
                                 </Col>
-                                <span class="segment-text"><Label><strong>Type:</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal3} toggle={()=>this.setState({modal3:!this.state.modal3})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'9.5rem'}} caret>
                                             {
                                                 (this.state.typeVal) ? this.state.typeVal : "Choose Type"
                                             }
@@ -338,16 +342,18 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>
-                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color="light" style={{...style, width:'50px'}} onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     } else if(this.state.ddVal.id===3){
                         return(
                             <Row>
-                                <span class="segment-text"><Label><strong>Location</strong></Label></span>
+                                <Col>
+                                    <span class="segment-text"><Label><strong>Location</strong></Label></span>
+                                </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light"  style={{...style,width:'6rem', marginLeft:'-50px'}} caret>
                                             {
                                                 (this.state.locationVal) ? this.state.locationVal : "Select"
                                             }
@@ -369,10 +375,12 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>
-                                <span class="segment-text"><Label><strong>Location</strong></Label></span>
+                                <Col>
+                                    <span class="segment-text" style={{marginLeft:'-50px'}}><Label><strong>Within</strong></Label></span>
+                                </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'10rem',marginLeft:'-100px'}} caret>
                                             {
                                                 (this.state.regionVal) ? this.state.regionVal : "Choose region.."
                                             }
@@ -394,16 +402,16 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>                                
-                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color="light" style={{...style,width:'50px'}} onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     } else if(this.state.ddVal.id===4){
                         return(
                             <Row>
-                            <span class="segment-text"><Label><strong>Person</strong></Label></span>
+                                <span class="segment-text" style={{marginLeft:'20px'}}><Label><strong>Person</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'6rem'}} caret>
                                             {
                                                 (this.state.personVal) ? this.state.personVal :"Select"
                                             }
@@ -427,11 +435,11 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <span class="segment-text"><Label><strong>Within</strong></Label></span>
                                 <Col>
-                                    <Input type="text" value={this.state.within} onChange={()=>this.setState({within:this.state.within})} />
+                                    <Input type="text" value={this.state.within} style={{...style,width:'3rem'}} onChange={()=>this.setState({within:this.state.within})} />
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal3} toggle={()=>this.setState({modal3:!this.state.modal3})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'12rem'}} caret>
                                             {
                                                 (this.state.dimensionVal2) ? this.state.dimensionVal2 : "Choose Dimensions"
                                             }
@@ -455,12 +463,12 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <span class="segment-text"><Label><strong>of</strong></Label></span>
                                 <Col>
-                                    <Input type="text" value={this.state.of} onChange={()=>this.setState({of:this.state.of})} placeholder="Postal/Zip Code"/>
+                                    <Input type="text" value={this.state.of} style={{...style,width:'9.5rem'}} onChange={()=>this.setState({of:this.state.of})} placeholder="Postal/Zip Code"/>
                                 </Col>
                                 <span class="segment-text"><Label><strong>in</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'10rem'}} caret>
                                             {
                                                 (this.state.countryVal) ? this.state.countryVal : "Choose country"
                                             }
@@ -482,16 +490,16 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>                                
-                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color="light" style={{...style,width:'50px'}} onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     } else if(this.state.ddVal.id===5){
                         return(
                             <Row>
-                            <span class="segment-text"><Label><strong>Person</strong></Label></span>
+                                <span class="segment-text" style={{paddingLeft:'15px'}}><Label><strong>Person</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'6rem'}} caret>
                                             {
                                                 (this.state.personVal) ? this.state.personVal : "Select"
                                             }
@@ -516,7 +524,7 @@ export class SegmentItem extends Component {
                                 <span class="segment-text"><Label><strong>in</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'10rem'}} caret>
                                             {
                                                 (this.state.listVal) ? this.state.listVal : "Choose a list.."
                                             }
@@ -544,11 +552,11 @@ export class SegmentItem extends Component {
                     } else if(this.state.ddVal.id===6){
                         return(
                             <Row>
-                            <span class="segment-text"><Label><strong>Person</strong></Label></span>
+                            <span class="segment-text" style={{marginLeft:'20px'}}><Label><strong>Person</strong></Label></span>
                                 <Col>
                                 <div class="condition-6">
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'10rem'}} caret>
                                             {
                                                 (this.state.personVal) ? this.state.personVal : "Select"
                                             }
@@ -571,17 +579,19 @@ export class SegmentItem extends Component {
                                     </Dropdown>
                                     </div>
                                 </Col>
-                                <div class="suppressed-text"><Label><strong>suppressed</strong></Label></div>                              
-                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
+                                <Col>
+                                    <div class="suppressed-text"><Label><strong>suppressed</strong></Label></div>
+                                </Col>
+                                <Button color="light" style={{...style,width:'50px'}} onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     } else if(this.state.ddVal.id===7){
                         return(
                             <Row>
-                            <span class="segment-text"><Label><strong>Person</strong></Label></span>
+                                <span class="segment-text" style={{marginLeft:'20px'}}><Label><strong>Person</strong></Label></span>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal1} toggle={()=>this.setState({modal1:!this.state.modal1})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'10rem'}} caret>
                                             {
                                                 (this.state.attributeVal) ? this.state.attributeVal : "Choose Attribute"
                                             }
@@ -605,7 +615,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal2} toggle={()=>this.setState({modal2:!this.state.modal2})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'10rem'}} caret>
                                             {
                                                 (this.state.personVal) ? this.state.personVal : "Select"
                                             }
@@ -629,7 +639,7 @@ export class SegmentItem extends Component {
                                 </Col>
                                 <Col>
                                     <Dropdown isOpen={this.state.modal3} toggle={()=>this.setState({modal3:!this.state.modal3})}>
-                                        <DropdownToggle color="light" caret>
+                                        <DropdownToggle color="light" style={{...style,width:'10rem'}} caret>
                                             {
                                                 (this.state.possibilityVal) ? this.state.possibilityVal : "Select Option"
                                             }
@@ -651,7 +661,7 @@ export class SegmentItem extends Component {
                                         </DropdownMenu>
                                     </Dropdown>
                                 </Col>                         
-                                <Button color="light" onClick={this.props.addOrComponent}>OR</Button>
+                                <Button color="light" style={{...style,width:'50px'}} onClick={this.props.addOrComponent}>OR</Button>
                             </Row>
                         )
                     }
@@ -737,8 +747,13 @@ export class SegmentItemOR extends Component{
         return(
             <>
                 {
-                    this.state.arr.map( item => {
-                        return <SegmentItem OR_id={item.OR_id} dd_id={item.dd_id} item={item} addOrComponent={this.addOrComponent} saveVal={this.saveVal} removeVal={this.removeVal} clearOrObject={this.clearOrObject} />
+                    this.state.arr.map( (item , index) => {
+                        return <div className="ORcard">
+                            <SegmentItem OR_id={item.OR_id} dd_id={item.dd_id} item={item} addOrComponent={this.addOrComponent} saveVal={this.saveVal} removeVal={this.removeVal} clearOrObject={this.clearOrObject} />
+                            {
+                                (this.state.arr[this.state.arr.length-1].OR_id!=item.OR_id)?<p style={{marginTop:'45px', color:'rgba(98, 111, 126, 0.66)'}}>OR  ----------------------------------------------------------------------------------------------------------------------------------------------</p>:""
+                            }
+                        </div>
                     })
                 }
             </>

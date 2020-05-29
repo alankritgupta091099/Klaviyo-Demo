@@ -283,6 +283,19 @@ body{
     justify-content: space-between;
     flex-direction: column;
 }
+
+/* Segment */
+.ANDcard{
+    margin:10px 10px 10px 0;
+    padding: 2rem;
+    box-shadow: rgba(98, 111, 126, 0.66) 0px 1px 2px 0px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+.ORcard{
+    margin-bottom: 30px;
+}
+
 /* Tables */
 .Card-Table{
     position: relative;
@@ -429,3 +442,67 @@ body{
     color: #6A89BE;
     font-weight: 550;
 }
+
+/* prajwal styles */
+.demo:hover {
+   background-color:#E9F4FB;
+    color: #2B98D3;
+    border-color:#2B98D3;
+    }
+
+
+    .demo{
+        font-family: 'Varela Round', sans-serif;
+        padding: 0;
+        
+       
+    }
+
+    #card-image:hover{
+        color:#2B98D3 ;
+    }
+    
+   #segment-del{
+    font-family: 'Varela Round', sans-serif;
+    
+   }
+   .del{
+       position: absolute;
+       left:85%;       
+   }
+   .del-icon{
+       position: absolute;
+       margin-left: 75%;
+       display:inline-block;
+       margin-bottom: 3%;
+   }
+   .segment-items{
+       margin: 3% 0;     
+   }
+   .seg-selector{       
+       margin-bottom: 3%;
+   }
+   
+   .new-seg-item{
+       margin-bottom:5px;
+       display: inline-block;
+       justify-items: baseline;
+   }
+   .seg-options{
+       display: flex;
+       align-items: center;
+       
+   }
+   .segment-text{
+       margin-top:0.5rem;
+       display: inline-block;
+   }
+
+   .suppressed-text{
+       display: inline-block;
+       padding: 1%;
+       margin-right: 3%;
+   }
+   .condition-6{
+       display: inline-block;
+   }
