@@ -32,7 +32,7 @@ import { MainSidebarItem } from "./MainSidebarItem"
             <MainSidebarItem
                 text="Lists & Segments"
                 id='listsegments'
-                href='/'
+                href='/lists-campaigns'
             />
             <MainSidebarItem
                 text="Profiles"

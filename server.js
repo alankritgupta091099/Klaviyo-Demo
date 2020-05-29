@@ -18,6 +18,7 @@ const flows=require('./routes/flows');
 const users=require('./routes/user');
 const emails=require('./routes/email');
 const campaigns=require('./routes/campaign');
+const segments=require('./routes/segment');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -40,4 +41,5 @@ app.listen(PORT,()=>{
 app.use('/flows', Middlewares , flows);
 app.use('/emails', Middlewares , emails);
 app.use('/campaigns', Middlewares , campaigns);
+app.use('/segments', Middlewares , segments);
 app.use('/users', users);
