@@ -1,4 +1,4 @@
-import { UPDATE_SEGMENT , INITIALIZE_SEGMENT , LOAD_ALL_SEGMENTS , LOAD_SELECTED_SEGMENT , NO_SEGMENTS , DELETE_SEGMENT } from '../actions/types.js';
+import { UPDATE_SEGMENT , INITIALIZE_SEGMENT , LOAD_ALL_SEGMENTS , LOAD_SELECTED_SEGMENT , NO_SEGMENTS , DELETE_SEGMENT , NAME_SEGMENT } from '../actions/types.js';
 
 const initialState={
     segment_name: null,
@@ -17,8 +17,12 @@ export default function ( state = initialState , action ){
         case INITIALIZE_SEGMENT:
             return {
                 ...state,
-                segment_name:action.payload.segment_name,
-                segment_id:action.payload.segment_id
+                segment_id:action.payload
+            };
+        case NAME_SEGMENT:
+            return {
+                ...state,
+                segment_name:action.payload
             };
         case LOAD_ALL_SEGMENTS:
             return{
@@ -41,8 +45,8 @@ export default function ( state = initialState , action ){
             return{
                 ...state,
                 segment_name: null,
-                segment_id_id: null,
-                segment_body_body: null,
+                segment_id: null,
+                segment_body: null,
                 allSegments:action.payload
             };
         default:

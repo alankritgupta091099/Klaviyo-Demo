@@ -49,7 +49,83 @@ export class SegmentItem extends Component {
                 possibilityVal:null
             });
         }
-        this.setState({ddVal:obj})
+        this.setState({ddVal:obj});
+        this.props.saveVal(null,null,null,this.props.OR_id,obj.id)
+    }
+
+    componentDidMount(){
+        if(this.props.dd_id && Object.keys(this.props.item).length>1){
+            var obj = SegmentConditions.find(element=>{
+                return element.id==this.props.dd_id
+            })
+            if(this.props.dd_id==1){
+                    this.setState({
+                    ddVal:{
+                        id:1,
+                        text:obj.text                        
+                    },                
+                    metricVal:this.props.item.metric.val,
+                    freqVal:this.props.item.frequency.val,
+                    timeVal:this.props.item.time.val
+                })
+            } else if(this.props.dd_id==2){
+                this.setState({
+                    ddVal:{
+                        id:2,
+                        text:obj.text                        
+                    },                
+                    dimensionVal:this.props.item.dimensions.val,
+                    conditionVal:this.props.item.condition.val,
+                    typeVal:this.props.item.type.val
+                })
+            } else if(this.props.dd_id==3){
+                this.setState({
+                    ddVal:{
+                        id:3,
+                        text:obj.text                        
+                    },                
+                    locationVal:this.props.item.location.val,
+                    regionVal:this.props.item.region.val
+                })
+            } else if(this.props.dd_id==4){
+                this.setState({
+                    ddVal:{
+                        id:4,
+                        text:obj.text                        
+                    },                
+                    personVal:this.props.item.person.val,
+                    dimensionVal2:this.props.item.dimensions.val,
+                    countryVal:this.props.item.countries.val
+                })
+            } else if(this.props.dd_id==5){
+                this.setState({
+                    ddVal:{
+                        id:5,
+                        text:obj.text                        
+                    },                
+                    personVal:this.props.item.person.val,
+                    listVal:this.props.item.lists.val
+                })
+            } else if(this.props.dd_id==6){
+                this.setState({
+                    ddVal:{
+                        id:6,
+                        text:obj.text                        
+                    },                
+                    personVal:this.props.item.person.val
+                })
+            } else if(this.props.dd_id==7){
+                this.setState({
+                    ddVal:{
+                        id:7,
+                        text:obj.text                        
+                    },                
+                    attributeVal:this.props.item.attribute.val,
+                    personVal:this.props.item.person.val,
+                    possibilityVal:this.props.item.possibility.val,
+                })
+            }
+        }
     }
 
     render() {
@@ -112,13 +188,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.metric.map( ( metric , index ) => { 
+                                                SegmentConditions[0].metric.map( ( metric , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({metricVal:metric})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[2],index,metric,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[0])[2],index,metric,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{metric}</DropdownItem>
                                                         </>
                                                     )
@@ -136,13 +212,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.frequency.map( ( freq , index ) => { 
+                                                SegmentConditions[0].frequency.map( ( freq , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({freqVal:freq})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[3],index,freq,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[0])[3],index,freq,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{freq}</DropdownItem>
                                                         </>
                                                     )
@@ -160,13 +236,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.time.map( ( time , index ) => { 
+                                                SegmentConditions[0].time.map( ( time , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({timeVal:time})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[4],index,time,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[0])[4],index,time,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{time}</DropdownItem>
                                                         </>
                                                     )
@@ -192,13 +268,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.dimensions.map( ( dimension , index ) => { 
+                                                SegmentConditions[1].dimensions.map( ( dimension , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({dimensionVal:dimension})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[2],index,dimension,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[1])[2],index,dimension,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{dimension}</DropdownItem>
                                                         </>
                                                     )
@@ -216,13 +292,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.condition.map( ( condition , index ) => { 
+                                                SegmentConditions[1].condition.map( ( condition , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({conditionVal:condition})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[3],index,condition,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[1])[3],index,condition,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{condition}</DropdownItem>
                                                         </>
                                                     )
@@ -247,13 +323,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.type.map( ( type , index ) => { 
+                                                SegmentConditions[1].type.map( ( type , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({typeVal:type})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[4],index,type,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[1])[4],index,type,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{type}</DropdownItem>
                                                         </>
                                                     )
@@ -278,13 +354,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.location.map( ( location , index ) => { 
+                                                SegmentConditions[2].location.map( ( location , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({locationVal:location})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[2],index,location,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[2])[2],index,location,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{location}</DropdownItem>
                                                         </>
                                                     )
@@ -303,13 +379,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.region.map( ( region , index ) => { 
+                                                SegmentConditions[2].region.map( ( region , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({regionVal:region})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[3],index,region,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[2])[3],index,region,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{region}</DropdownItem>
                                                         </>
                                                     )
@@ -334,13 +410,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.person.map( ( person , index ) => { 
+                                                SegmentConditions[3].person.map( ( person , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({personVal:person})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[2],index,person,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[3])[2],index,person,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{person}</DropdownItem>
                                                         </>
                                                     )
@@ -362,13 +438,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.dimensions.map( ( dimension , index ) => { 
+                                                SegmentConditions[3].dimensions.map( ( dimension , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({dimensionVal2:dimension})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[3],index,dimension,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[3])[3],index,dimension,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{dimension}</DropdownItem>
                                                         </>
                                                     )
@@ -391,13 +467,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.countries.map( ( country , index ) => { 
+                                                SegmentConditions[3].countries.map( ( country , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({countryVal:country})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[4],index,country,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[3])[4],index,country,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{country}</DropdownItem>
                                                         </>
                                                     )
@@ -422,13 +498,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.person.map( ( person , index ) => { 
+                                                SegmentConditions[4].person.map( ( person , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({personVal:person})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[2],index,person,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[4])[2],index,person,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{person}</DropdownItem>
                                                         </>
                                                     )
@@ -447,13 +523,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.lists.map( ( list , index ) => { 
+                                                SegmentConditions[4].lists.map( ( list , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({listVal:list})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[3],index,list,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[4])[3],index,list,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{list}</DropdownItem>
                                                         </>
                                                     )
@@ -479,13 +555,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.person.map( ( person , index ) => { 
+                                                SegmentConditions[5].person.map( ( person , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({personVal:person})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[2],index,person,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[5])[2],index,person,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{person}</DropdownItem>
                                                         </>
                                                     )
@@ -512,13 +588,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.attribute.map( ( attribute , index ) => { 
+                                                SegmentConditions[6].attribute.map( ( attribute , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({attributeVal:attribute})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[2],index,attribute,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[6])[2],index,attribute,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{attribute}</DropdownItem>
                                                         </>
                                                     )
@@ -536,13 +612,13 @@ export class SegmentItem extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.person.map( ( person , index ) => { 
+                                                SegmentConditions[6].person.map( ( person , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({personVal:person})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[3],index,person,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[6])[3],index,person,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{person}</DropdownItem>
                                                         </>
                                                     )
@@ -555,18 +631,18 @@ export class SegmentItem extends Component {
                                     <Dropdown isOpen={this.state.modal3} toggle={()=>this.setState({modal3:!this.state.modal3})}>
                                         <DropdownToggle color="light" caret>
                                             {
-                                                (this.state.possibilityVal) ? this.state.possibilityVal : this.state.ddVal.possibility[0]
+                                                (this.state.possibilityVal) ? this.state.possibilityVal : "Select Option"
                                             }
                                         </DropdownToggle>
                                         <DropdownMenu>
                                             {
-                                                this.state.ddVal.possibility.map( ( possibility , index ) => { 
+                                                SegmentConditions[6].possibility.map( ( possibility , index ) => { 
                                                     return(
                                                         <>  
                                                             <DropdownItem divider />
                                                             <DropdownItem key={index} onClick={()=>{
                                                                 this.setState({possibilityVal:possibility})
-                                                                this.props.saveVal(Object.keys(this.state.ddVal)[4],index,possibility,this.props.OR_id,this.state.ddVal.id)
+                                                                this.props.saveVal(Object.keys(SegmentConditions[6])[4],index,possibility,this.props.OR_id,this.state.ddVal.id)
                                                             }}>{possibility}</DropdownItem>
                                                         </>
                                                     )
@@ -592,7 +668,7 @@ export class SegmentItemOR extends Component{
         super(props)
     
         this.state = {
-            arr:[{OR_id:uuidv4()}]
+            arr:[]
         }
         
     }
@@ -602,20 +678,21 @@ export class SegmentItemOR extends Component{
         this.setState({
             arr:this.state.arr
         })
-        console.log(this.state.arr)
+        //console.log(this.state.arr)
     }
 
     saveVal = (type,index,val,OR_id,dd_id) => {
         this.state.arr.forEach(element => {
-            if(element.OR_id===OR_id){
+            if(element.OR_id===OR_id && type==null){
                 element.dd_id=dd_id
+            }else if(element.OR_id===OR_id && type != null){
                 element[type]={
                     index,
                     val
                 }
             }
         });
-        this.props.saveAndComponent(this.state.arr,this.props.AND_id);
+        this.props.saveAndComponent(this.state.arr,this.props.item.AND_id);
         //console.log(this.state.arr)
     }
 
@@ -643,12 +720,25 @@ export class SegmentItemOR extends Component{
         }
     }
 
-    render(){        
+    componentDidMount(){
+        if(Object.keys(this.props.item).length>1){
+            this.setState({
+                arr:this.props.item.orArr
+            })
+        }
+    }
+
+    render(){    
+        if(this.state.arr.length==0){
+            this.setState({
+                arr:[{OR_id:uuidv4()}]
+            })
+        }    
         return(
             <>
                 {
                     this.state.arr.map( item => {
-                        return <SegmentItem OR_id={item.OR_id} addOrComponent={this.addOrComponent} saveVal={this.saveVal} removeVal={this.removeVal} clearOrObject={this.clearOrObject} />
+                        return <SegmentItem OR_id={item.OR_id} dd_id={item.dd_id} item={item} addOrComponent={this.addOrComponent} saveVal={this.saveVal} removeVal={this.removeVal} clearOrObject={this.clearOrObject} />
                     })
                 }
             </>

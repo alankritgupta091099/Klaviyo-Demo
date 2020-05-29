@@ -3,18 +3,15 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { withRouter , Link } from 'react-router-dom';
 import { Container, Row, Col , Table , Modal, ModalHeader, ModalBody, ModalFooter , Button } from 'reactstrap';
-import {
-  Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle
-} from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
 import {faList,faBolt} from '@fortawesome/free-solid-svg-icons'
 
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
-import { initializeFlow , loadFlowList , deleteFlow , loadSelectedFlow } from '../actions/flowActions.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { initializeSegment , loadSegmentList , deleteSegment , loadSelectedSegment } from '../actions/segmentActions.js';
 
-class Flow extends React.Component {
+class ListAndSegment extends React.Component {
   
   constructor(props) {
     super(props)
@@ -33,21 +30,21 @@ class Flow extends React.Component {
     })
   }
 
-//   componentWillReceiveProps(nextProps){ 
-//     if(this.props.user===null) this.props.loadFlowList();       
-//     this.setState({
-//       flowList:nextProps.flow
-//     })
-//   }
+  componentWillReceiveProps(nextProps){ 
+    if(this.props.user===null) this.props.loadSegmentList();       
+    this.setState({
+      allListsOrSegments:nextProps.allSegments
+    })
+  }
 
-//   onDeleteClick = ( id ) => {
-//       this.props.deleteFlow(id);
-//   }
+  onDeleteClick = ( id ) => {
+      this.props.deleteSegment(id);
+  }
 
-//   onEditClick = async( id ) => {
-//     await this.props.loadSelectedFlow(id);
-//     this.props.history.push('/flow/create')
-//   }
+  onEditClick = async( id ) => {
+    await this.props.loadSelectedSegment(id);
+    this.props.history.push('/segment/create')
+  }
 
   render () {
     //if(!this.state.openLayout)
@@ -78,21 +75,21 @@ class Flow extends React.Component {
               <div className="Card-Table-Inner">
                 <Table hover borderless>
                 <tbody>
-                {/* { 
-                  (this.state.flowList)?this.state.flowList.map((obj)=>{
+                { 
+                  (this.state.allListsOrSegments)?this.state.allListsOrSegments.map((obj)=>{
                     return(
-                      <tr key={obj.flow.flow_id}>
+                      <tr key={obj.segment.segment_id}>
                       <Col>
-                        <td>{obj.flow.flow_name}</td>
+                        <td>{obj.segment.segment_name}</td>
                       </Col>   
                         <td>
-                          <button className="btn btnTable" onClick={this.onDeleteClick.bind(this,obj.flow.flow_id)} >Delete</button>
-                          <button className="btn btnTable" onClick={this.onEditClick.bind(this,obj.flow.flow_id)}>Edit</button>
+                          <button className="btn btnTable" onClick={this.onDeleteClick.bind(this,obj.segment.segment_id)} >Delete</button>
+                          <button className="btn btnTable" onClick={this.onEditClick.bind(this,obj.segment.segment_id)}>Edit</button>
                         </td>  
                       </tr>
                     )
                   }):<div className="spinner-border" style={{marginLeft:'50%'}}/>
-                } */}
+                }
                 </tbody>
             </Table>
               </div>              
@@ -103,7 +100,9 @@ class Flow extends React.Component {
                   <Row>
                     <Col sm="6">
 
-                        <button class="demo" onClick={()=>{this.props.history.push('/list/create')}}>
+                        <button class="demo" onClick={()=>{
+                          this.props.history.push('/list/create')
+                        }}>
                         <Card body className="text-center">
                         <CardBody>
                         <CardTitle><FontAwesomeIcon icon={faList} size="lg" /></CardTitle>
@@ -115,7 +114,10 @@ class Flow extends React.Component {
                         </button>
                     </Col>
                     <Col sm="6">
-                        <button class="demo" onClick={()=>{this.props.history.push('/segment/create')}}>
+                        <button class="demo" onClick={()=>{
+                            this.props.initializeSegment(uuidv4())
+                            this.props.history.push('/segment/create')
+                          }}>
                         <Card body className="text-center">
         
                         <CardBody >
@@ -146,7 +148,7 @@ class Flow extends React.Component {
 
 const mapStateToProps = state => ({
     user:state.auth.user,
-    flow:state.flow.allFlows
+    allSegments:state.segment.allSegments
 })
 
-export default connect( mapStateToProps , { initializeFlow , loadFlowList , deleteFlow , loadSelectedFlow } )(withRouter(Flow));
+export default connect( mapStateToProps , { initializeSegment , loadSegmentList , deleteSegment , loadSelectedSegment } )(withRouter(ListAndSegment));

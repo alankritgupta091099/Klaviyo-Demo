@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
 import { SegmentItem , SegmentItemOR } from '../components/listsAndSegment/SegmentItem.js';
-import { saveSegment } from '../actions/segmentActions.js';
+import { saveSegment , nameSegment } from '../actions/segmentActions.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
@@ -17,7 +17,7 @@ class createSegment extends Component {
         super(props)
     
         this.state = {
-            arr:[{AND_id:uuidv4()}]
+            arr:[]
         }
     }
     
@@ -44,24 +44,45 @@ class createSegment extends Component {
     }
 
     saveAndComponent = ( orArr , AND_id ) => {
+        
         this.state.arr.forEach(element => {
             if(element.AND_id===AND_id){
-                element.orArr=orArr
+                element.orArr=orArr;
             }
         });
         this.setState({
             arr:this.state.arr
         })
-        console.log(this.state.arr)
+        //console.log(this.state.arr)
+    }
+
+    onChange=(e)=>{
+        this.setState({[e.target.name]:e.target.value})
     }
 
     onSubmit=(e)=>{
         e.preventDefault();
         console.log(this.state.arr)
+        this.props.nameSegment(this.state.segment_name)
         this.props.saveSegment(this.state.arr);
+        this.props.history.push('/lists-campaigns')
     }
 
-    render() {
+    componentDidMount(){
+        if(this.props.segment_name){
+            this.setState({
+                segment_name:this.props.segment_name,
+                arr:this.props.segment_body
+            })
+        }
+    }
+
+    render() {        
+        if(this.state.arr.length==0){
+            this.setState({
+                arr:[{AND_id:uuidv4()}]
+            })
+        }
         return (
             <>
             <Container fluid={true}>
@@ -87,7 +108,7 @@ class createSegment extends Component {
                                     <Col xs={8}>
                                     <FormGroup>
                                         <Label><strong>Name</strong></Label>
-                                        <Input bsSize="sm" type="text" name="segment_name" onChange={this.onChange} placeholder="Enter Segment Name" />
+                                        <Input bsSize="sm" type="text" name="segment_name" value={this.state.segment_name} onChange={this.onChange} placeholder="Enter Segment Name" required/>
                                     </FormGroup>
                                     </Col>
                                     <Col xs={4}>
@@ -102,8 +123,7 @@ class createSegment extends Component {
                                 <Row>
                                     <Col>
                                     <FormGroup>
-                                        <Label><strong>Definitions</strong></Label> 
-                                                           
+                                        <Label><strong>Definitions</strong></Label>                                                            
                                     </FormGroup>
                                     </Col>
                                 </Row>
@@ -113,7 +133,7 @@ class createSegment extends Component {
                                             <div>
                                             <div class="new-seg-item">
                                                 <Row>
-                                                    <SegmentItemOR AND_id={item.AND_id} saveAndComponent={this.saveAndComponent}/>
+                                                    <SegmentItemOR item={item} saveAndComponent={this.saveAndComponent}/>
                                                 </Row>
                                                 </div>
                                                 <Row>
@@ -129,8 +149,9 @@ class createSegment extends Component {
                                         )
                                     })
                                 }
+
+                                <Button color="secondary" size="sm" onClick={()=>this.props.history.push('/lists-campaigns')}>Back</Button>                           
                                 <div class="del"> <Button color="primary" size="sm" onClick={this.onSubmit} ><span id="segment-del"><strong>Save Segment</strong></span></Button></div>
-                                                           
                             </Form>
                         </div>
                     </div>
@@ -143,8 +164,9 @@ class createSegment extends Component {
     }
 }
 
-// const mapStateToProps = state => ({
-    
-// })
+const mapStateToProps = state => ({
+    segment_name:state.segment.segment_name,
+    segment_body:state.segment.segment_body
+})
 
-export default connect( null , { saveSegment })(createSegment);
+export default connect( mapStateToProps , { saveSegment , nameSegment })(createSegment);
