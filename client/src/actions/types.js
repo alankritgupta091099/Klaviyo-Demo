@@ -48,6 +48,7 @@ export const LOAD_ALL_LISTS = "LOAD_ALL_LISTS";
 export const LOAD_SELECTED_LIST = "LOAD_SELECTED_LIST";
 export const NO_LISTS = "NO_LISTS";
 export const DELETE_LIST = "DELETE_LIST";
+export const NAME_LIST = "NAME_LIST";
 
 //Segment
 export const UPDATE_SEGMENT = "UPDATE_SEGMENT";

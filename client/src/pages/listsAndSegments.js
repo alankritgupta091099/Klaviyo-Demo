@@ -10,6 +10,7 @@ import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { initializeSegment , loadSegmentList , deleteSegment , loadSelectedSegment } from '../actions/segmentActions.js';
+import { initializeList , loadList , deleteList , loadSelectedList } from '../actions/listActions.js';
 
 class ListAndSegment extends React.Component {
   
@@ -19,7 +20,8 @@ class ListAndSegment extends React.Component {
     this.state = {
        modal:false,
        listOrSegmentName:"",
-       allListsOrSegments:[]
+       allListsOrSegments:[],
+       lists:[]
     }
     this.toggle = this.toggle.bind(this);
   }
@@ -31,19 +33,31 @@ class ListAndSegment extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){ 
-    if(this.props.user===null) this.props.loadSegmentList();       
+    if(this.props.user===null) {
+      this.props.loadSegmentList();       
+      this.props.loadList();
+    }
     this.setState({
-      allListsOrSegments:nextProps.allSegments
+      allListsOrSegments:nextProps.allSegments,
+      lists:nextProps.allLists
     })
   }
 
-  onDeleteClick = ( id ) => {
-      this.props.deleteSegment(id);
+  onDeleteClick = ( item ) => {
+    if(item.list_id)
+      this.props.deleteList(item.list_id)
+    else this.props.deleteSegment(item);
   }
 
-  onEditClick = async( id ) => {
-    await this.props.loadSelectedSegment(id);
-    this.props.history.push('/segment/create')
+  onEditClick = async( item ) => {
+    console.log(item.list_id)
+    if(item.list_id){
+      await this.props.loadSelectedList(item.list_id);
+      this.props.history.push('/list/create');
+    } else {
+      await this.props.loadSelectedSegment(item);
+      this.props.history.push('/segment/create');
+    }
   }
 
   render () {
@@ -73,6 +87,7 @@ class ListAndSegment extends React.Component {
             <hr/>
              <div className="Card-Table">
               <div className="Card-Table-Inner">
+                <h5><strong>Segments</strong></h5>
                 <Table hover borderless>
                 <tbody>
                 { 
@@ -94,6 +109,30 @@ class ListAndSegment extends React.Component {
             </Table>
               </div>              
              </div>
+            <div className="Card-Table"style={{marginTop:'20px'}}>
+              <div className="Card-Table-Inner">
+                <h5><strong>Lists</strong></h5>
+                <Table hover borderless>
+                <tbody>
+                { 
+                  (this.state.lists)?this.state.lists.map((obj)=>{
+                    return(
+                      <tr key={obj.list.list_id}>
+                      <Col>
+                        <td>{obj.list.list_name}</td>
+                      </Col>   
+                        <td>
+                          <button className="btn btnTable" onClick={this.onDeleteClick.bind(this,obj.list)} >Delete</button>
+                          <button className="btn btnTable" onClick={this.onEditClick.bind(this,obj.list)}>Edit</button>
+                        </td>  
+                      </tr>
+                    )
+                  }):<div className="spinner-border" style={{marginLeft:'50%'}}/>
+                }
+                </tbody>
+            </Table>
+              </div>              
+             </div>
             <Modal isOpen={this.state.modal} toggle={this.toggle}  >
                 <ModalHeader toggle={this.toggle}>Create List or Segment</ModalHeader>
                 <ModalBody>
@@ -101,6 +140,7 @@ class ListAndSegment extends React.Component {
                     <Col sm="6">
 
                         <button class="demo" onClick={()=>{
+                          this.props.initializeList(uuidv4())
                           this.props.history.push('/list/create')
                         }}>
                         <Card body className="text-center">
@@ -148,7 +188,8 @@ class ListAndSegment extends React.Component {
 
 const mapStateToProps = state => ({
     user:state.auth.user,
-    allSegments:state.segment.allSegments
+    allSegments:state.segment.allSegments,
+    allLists:state.list.allLists
 })
 
-export default connect( mapStateToProps , { initializeSegment , loadSegmentList , deleteSegment , loadSelectedSegment } )(withRouter(ListAndSegment));
+export default connect( mapStateToProps , { initializeList , loadList , loadSelectedList , deleteList , initializeSegment , loadSegmentList , deleteSegment , loadSelectedSegment } )(withRouter(ListAndSegment));

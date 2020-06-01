@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "html-react-parser": "^0.10.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.12"
+    "mongoose": "^5.9.12",
+    "react-csv-reader": "^3.0.6"
   }
 }

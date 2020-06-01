@@ -19,6 +19,7 @@ const users=require('./routes/user');
 const emails=require('./routes/email');
 const campaigns=require('./routes/campaign');
 const segments=require('./routes/segment');
+const lists=require('./routes/list');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -42,4 +43,5 @@ app.use('/flows', Middlewares , flows);
 app.use('/emails', Middlewares , emails);
 app.use('/campaigns', Middlewares , campaigns);
 app.use('/segments', Middlewares , segments);
+app.use('/lists', Middlewares , lists);
 app.use('/users', users);

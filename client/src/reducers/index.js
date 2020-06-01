@@ -5,6 +5,7 @@ import flowReducer from './flowReducer';
 import emailReducer from './emailReducer';
 import campaignReducer from './campaignReducer';
 import segmentReducer from './segmentReducer';
+import listReducer from './listReducer';
 
 export default combineReducers({
     auth:authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     flow:flowReducer,
     email:emailReducer,
     campaign:campaignReducer,
-    segment:segmentReducer
+    segment:segmentReducer,
+    list:listReducer
 })

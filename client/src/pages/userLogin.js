@@ -36,7 +36,7 @@ export class Login extends Component {
             }
         }
         if(this.props.isAuthenticated && this.props.token)
-            this.props.history.push('/lists-campaigns')        
+            this.props.history.push('/list/create')        
     }
     onChange(e){
         this.setState({[e.target.name]:e.target.value})
