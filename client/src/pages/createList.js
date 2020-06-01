@@ -114,33 +114,33 @@ class createList extends Component {
                                         <>
                                             <Row style={{margin:'50px'}}>
                                                 <Col sm="4">
-                                                    <button class="demo" onClick={()=>{
+                                                    {/* <button class="demo" onClick={()=>{
                                                         this.setState({
                                                             list_type:'signUpForm'
                                                         })
                                                         
-                                                    }}>
+                                                    }}> */}
                                                     <Card body className="text-center">
                                                     <CardBody>
                                                         <CardTitle><FontAwesomeIcon icon={faList} size="lg" /></CardTitle>
                                                         <CardSubtitle><strong>Create Signup Form</strong></CardSubtitle>
                                                     </CardBody>
                                                         </Card>
-                                                    </button>
+                                                    {/* </button> */}
                                                 </Col>
                                                 <Col sm="4">
-                                                    <button class="demo" onClick={()=>{
+                                                    {/* <button class="demo" onClick={()=>{
                                                         this.setState({
                                                             list_type:"subscribePage"
                                                         })
-                                                    }}>
+                                                    }}> */}
                                                     <Card body className="text-center">
                                                     <CardBody>
                                                         <CardTitle><FontAwesomeIcon icon={faClipboardList} size="lg" /></CardTitle>
                                                         <CardSubtitle><strong>Add a Subscribe Page</strong></CardSubtitle>
                                                     </CardBody>
                                                         </Card>
-                                                    </button>
+                                                    {/* </button> */}
                                                 </Col>
                                                 <Col sm="4">
                                                     <button class="demo" onClick={()=>{
