@@ -515,3 +515,8 @@ body{
    .condition-6{
        display: inline-block;
    }
+
+   .texteditor{
+       margin:70px 0 0 -220px;
+       width:180%
+   }

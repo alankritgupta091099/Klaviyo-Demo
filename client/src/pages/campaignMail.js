@@ -4,6 +4,10 @@ import { withRouter , Redirect } from 'react-router-dom';
 import { Container, Row, Col , Alert , Button, Form, FormGroup, Label, Input , InputGroup ,
 InputGroupAddon , Modal , ModalHeader, ModalBody, ModalFooter , ListGroup , ListGroupItem } from 'reactstrap';
 import parse from 'html-react-parser';
+import { EditorState } from 'draft-js';
+import { convertToHTML } from 'draft-convert';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
@@ -16,10 +20,12 @@ class createCampaigns extends Component {
     
         this.state = {
             modal:false,
+            modal2:false,
             from:"",
             replyTo:"",
             subject:"",
-            previewText:""
+            previewText:"",
+            editorState: EditorState.createEmpty()
         }
         this.toggle = this.toggle.bind(this);
     }
@@ -27,6 +33,12 @@ class createCampaigns extends Component {
     toggle(){
         this.setState({
         modal: !this.state.modal
+        })
+    }
+
+    toggle2=()=>{
+        this.setState({
+        modal2: !this.state.modal2
         })
     }
 
@@ -68,8 +80,23 @@ class createCampaigns extends Component {
         })
     }
 
+    onEditorStateChange = (editorState) => {
+        this.setState({
+        editorState,
+        });
+    };
+
+    onTextEditorSave=()=>{
+        const contentState = this.state.editorState.getCurrentContent();
+        console.log(convertToHTML(contentState))
+        this.setState({
+            email_html:convertToHTML(contentState)
+        })
+        this.toggle2();
+    }
+
     render() {
-        if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
+        //if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
         return (
             <>
             <Container fluid={true}>
@@ -127,7 +154,7 @@ class createCampaigns extends Component {
                             <Row>
                             {
                                 (()=>{
-                                    if(this.state.email_id && this.state.email_name){
+                                    if(this.state.email_html){
                                         return (
                                             <>
                                                 <Col style={{margin:'0 20%', border:'box-shadow: 0 0 6px rgba(43,152,211,.5)',border:'2px solid rgba(43,152,211,.5)'}}>
@@ -145,13 +172,13 @@ class createCampaigns extends Component {
                                     } else return (
                                         <>
                                             <Col xs={4}>
-                                            <Button>Rich HTML</Button>
+                                            <Button onClick={()=>this.props.history.push('/email-templates')}>Rich HTML</Button>
                                             </Col>
                                             <Col xs={4}>
-                                                <Button>Text Based</Button>
+                                                <Button onClick={this.toggle2}>Text Based</Button>
                                             </Col>
                                             <Col xs={4}>
-                                                <Button onClick={this.populateEmailList}>Use Templates</Button>
+                                                <Button onClick={this.populateEmailList}>Use From Templates</Button>
                                             </Col>                                    
                                         </>
                                     )                                    
@@ -172,7 +199,7 @@ class createCampaigns extends Component {
               </Col>
              </Row>
              <Modal isOpen={this.state.modal} toggle={this.toggle} >
-              <form onSubmit={this.onSubmit}>
+              <form onSubmit={(e)=>e.preventDefault()}>
                 <ModalHeader toggle={this.toggle}>Select Email Template</ModalHeader>
                 <ModalBody>
                     <ListGroup>
@@ -199,10 +226,27 @@ class createCampaigns extends Component {
                 </ModalFooter>
               </form>
             </Modal> 
+            <Modal isOpen={this.state.modal2} toggle={this.toggle2} contentClassName="texteditor">
+              <form onSubmit={(e)=>e.preventDefault()}>
+                <ModalHeader toggle={this.toggle2}>Select Email Template</ModalHeader>
+                <ModalBody>
+                    <Editor
+                    editorState={this.state.editorState}
+                    onEditorStateChange={this.onEditorStateChange}
+                    />
+                </ModalBody>
+                <ModalFooter>
+                    <button onClick={this.onTextEditorSave} className="btn btn-primary">
+                      Save
+                    </button>
+                  <button className="btn btn-secondary" onClick={this.toggle2}>Cancel</button>
+                </ModalFooter>
+              </form>
+            </Modal>
             </Container>
             </>
         ) 
-       else return<Redirect to="/campaigns/create"/>
+      // else return<Redirect to="/campaigns/create"/>
     }
 }
 
