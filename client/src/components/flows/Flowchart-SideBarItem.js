@@ -20,6 +20,10 @@ const Outer = styled.div`
   color: #606A72;
   transition: background-color .25s ease-out,color .25s ease-out;
   text-align: center;
+  cursor:pointer;
+  &:hover{
+        box-shadow: 0 2px 2px rgba(98,111,126,.35);
+  }
 `
 
 export const SidebarItem = ({ type, ports , properties , bg}) => {

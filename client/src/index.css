@@ -12,6 +12,12 @@ body{
     background:rgb(43, 152, 211); 
     color:white
 }
+
+.modalbutton a{
+    text-decoration: none;
+    color:white
+}
+
 .modalbutton:hover{
     background-color: #1170A3;
     color:white
@@ -96,6 +102,9 @@ body{
     position: relative;
     margin: 0;
     padding: 2px 0 2px 0;
+}
+.list:hover{
+    background-color: #CCD2D7;
 }
 .list a{
     color: #373F47;
