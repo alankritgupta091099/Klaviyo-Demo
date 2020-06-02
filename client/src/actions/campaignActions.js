@@ -101,3 +101,15 @@ export const loadSelectedCampaign = ( campaign_id ) => {
         )
     }
 } //currently not working
+
+export const sendMailCampaign =()=> ( dispatch , getState )=>{
+    axios.post(`${API_URL}/campaigns/${getState().auth.user._id}/sendMail/${getState().campaign.campaign_id}` , tokenConfig(getState) )
+    .then(res=>{
+        dispatch({
+            type:UPDATE_CAMPAIGN,
+        })
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}

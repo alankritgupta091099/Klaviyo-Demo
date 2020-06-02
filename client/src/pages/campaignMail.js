@@ -12,7 +12,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
 import { loadEmailList } from '../actions/emailActions.js';
-import { saveCampaign } from '../actions/campaignActions.js';
+import { saveCampaign , sendMailCampaign } from '../actions/campaignActions.js';
 
 class createCampaigns extends Component {
     constructor(props) {
@@ -190,6 +190,9 @@ class createCampaigns extends Component {
                                 <Col xs={3}>
                                 <Button className="btn">Save Changes</Button>
                                 </Col>
+                                <Col xs={3}>
+                                <Button className="btn" onClick={this.props.sendMailCampaign}>Send Mail</Button>
+                                </Col>
                             </Row>
                         </Form>
                         <hr/>
@@ -255,4 +258,4 @@ const mapStateToProps = ( state ) => ({
     campaign:state.campaign
 })
 
-export default connect( mapStateToProps , { loadEmailList , saveCampaign } )(createCampaigns);
+export default connect( mapStateToProps , { loadEmailList , saveCampaign , sendMailCampaign } )(createCampaigns);

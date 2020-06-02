@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { withRouter , Link } from 'react-router-dom';
-import { Container, Row, Col , Table , Modal, ModalHeader, ModalBody, ModalFooter ,Form} from 'reactstrap';
+import { Container, Row, Col , Table , Modal, ModalHeader, ModalBody, ModalFooter ,Form } from 'reactstrap';
 
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
