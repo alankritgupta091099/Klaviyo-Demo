@@ -96,7 +96,7 @@ class createCampaigns extends Component {
     }
 
     render() {
-        //if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
+        if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
         return (
             <>
             <Container fluid={true}>
@@ -246,7 +246,7 @@ class createCampaigns extends Component {
             </Container>
             </>
         ) 
-      // else return<Redirect to="/campaigns/create"/>
+      else return<Redirect to="/campaigns/create"/>
     }
 }
 

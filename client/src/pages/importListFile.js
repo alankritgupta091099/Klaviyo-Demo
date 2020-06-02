@@ -30,7 +30,7 @@ class createList extends Component {
     renderListItem=(data,fileInfo)=>{
         var dataArr=[];
         if(data[0][0]=="Email"){
-            data.forEach(element => {
+            data.slice(1,data.length-1).forEach(element => {
                if(element.length>1){
                     console.log("can not read");
                 } else {

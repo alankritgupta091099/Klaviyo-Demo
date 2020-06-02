@@ -2,24 +2,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter , Redirect , Link} from 'react-router-dom';
 import { Container, Row, Col , Alert , Button, Form, FormGroup, Label, Input , InputGroup ,
-InputGroupAddon } from 'reactstrap';
+InputGroupAddon , DropdownToggle , DropdownMenu , DropdownItem , Dropdown } from 'reactstrap';
 
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
 import { changeCampaignConfig } from '../actions/campaignActions.js';
+import { loadList } from '../actions/listActions.js';
+import { loadSegmentList } from '../actions/segmentActions.js';
 
 class createCampaigns extends Component {
     constructor(props) {
         super(props)
         this.state={
-            campaign_name:""
+            campaign_name:"",
+            modalCondition:false
         }
         this.onSubmit=this.onSubmit.bind(this);
     }
     
     onSubmit(e){
         e.preventDefault();
-        if ( this.props.campaign.campaign_name !== this.state.campaign_name ) this.props.changeCampaignConfig(this.state.campaign_name);
+        this.props.changeCampaignConfig(this.state.campaign_name,this.state.ddType,this.state.ddId,this.state.ddVal);
         this.props.history.push('/campaigns/create/mail-content')
     }    
 
@@ -27,10 +30,21 @@ class createCampaigns extends Component {
         this.setState({[e.target.name]:e.target.value})
     }
 
+    toggle=()=>{
+        this.setState({
+            modalCondition: !this.state.modalCondition
+        })
+    }
+
     componentDidMount(){
         this.setState({
-            campaign_name:this.props.campaign.campaign_name
+            campaign_name:this.props.campaign.campaign_name,
+            ddVal:this.props.campaign.campaign_receivers_name,
+            ddType:this.props.campaign.campaign_receivers_type,
+            ddId:this.props.campaign.campaign_receivers_id
         })
+        this.props.loadList();
+        this.props.loadSegmentList();
     }
 
     render() {
@@ -74,9 +88,46 @@ class createCampaigns extends Component {
                             </Row>
                             <Label>Who are you sending this campaign to?</Label>
                             <InputGroup>
-                                    <Input type="select" name="campaignTag">
-                                        <option>Default Select</option>
-                                    </Input>
+                                    <Dropdown  isOpen={this.state.modalCondition} toggle={this.toggle}>
+                                        <DropdownToggle color="light" style={{ width:'700px'}} caret block>
+                                            {
+                                                (this.state.ddVal) ? this.state.ddType==='List'? this.state.ddVal+" (List)":this.state.ddVal+" (Segment)" : "Select List or Segment"
+                                            }
+                                        </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem header>Lists</DropdownItem>
+                                            {
+                                                (this.props.allLists.length>0) ? this.props.allLists.map( item => { 
+                                                    return(
+                                                        <>  
+                                                            <DropdownItem key={item.list.list_id} onClick={()=>this.setState({
+                                                                    ddType:"List",
+                                                                    ddVal:item.list.list_name,
+                                                                    ddId:item.list.list_id
+                                                                })} 
+                                                            style={{ width:'700px'}} >{item.list.list_name}</DropdownItem>
+                                                        </>
+                                                    )
+                                                }) : <DropdownItem disabled>No lists</DropdownItem>                                              
+                                            }                                            
+                                            <DropdownItem divider />      
+                                            <DropdownItem header>Segments</DropdownItem>                  
+                                            {
+                                                (this.props.allSegments.length>0) ? this.props.allSegments.map( item => { 
+                                                    return(
+                                                        <>  
+                                                            <DropdownItem key={item.segment.segment_id} onClick={()=>this.setState({
+                                                                    ddType:"Segment",
+                                                                    ddVal:item.segment.segment_name,
+                                                                    ddId:item.segment.segment_id
+                                                                })} 
+                                                            style={{ width:'700px'}} >{item.segment.segment_name}</DropdownItem>
+                                                        </>
+                                                    )
+                                                }) : <DropdownItem disabled>No Segments</DropdownItem>
+                                            }
+                                        </DropdownMenu>
+                                    </Dropdown>
                                 <InputGroupAddon addonType="prepend"><Button>Reset</Button></InputGroupAddon>                            
                             </InputGroup>
                             <FormGroup>
@@ -136,7 +187,9 @@ class createCampaigns extends Component {
     }
 }
 const mapStateToProps = ( state ) => ({
-    campaign:state.campaign
+    campaign:state.campaign,
+    allLists:state.list.allLists,
+    allSegments:state.segment.allSegments
 })
 
-export default connect( mapStateToProps , { changeCampaignConfig } )(withRouter(createCampaigns));
+export default connect( mapStateToProps , { changeCampaignConfig , loadList , loadSegmentList } )(withRouter(createCampaigns));

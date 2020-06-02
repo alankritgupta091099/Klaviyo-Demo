@@ -3,7 +3,9 @@ import { UPDATE_CAMPAIGN , INITIALIZE_CAMPAIGN , LOAD_ALL_CAMPAIGNS , LOAD_SELEC
 const initialState={
     campaign_name: null,
     campaign_id: null,
-    smartSending:false,    
+    campaign_receivers_type:"",
+    campaign_receivers_id:"",
+    campaign_receivers_name:"",
     campaign_content:{
         from:"",
         replyTo:"",
@@ -46,7 +48,9 @@ export default function ( state = initialState , action ) {
                 ...state,
                 campaign_name:action.payload.campaign_name,
                 campaign_id: action.payload.campaign_id,
-                smartSending:action.payload.smartSending,    
+                campaign_receivers_type:action.payload.campaign_receivers_type,
+                campaign_receivers_id:action.payload.campaign_receivers_id,   
+                campaign_receivers_name:action.payload.campaign_receivers_name, 
                 campaign_content:{
                     from:action.payload.campaign_content.from,
                     replyTo:action.payload.campaign_content.replyTo,
@@ -70,7 +74,10 @@ export default function ( state = initialState , action ) {
         case CHANGE_CAMPAIGN_CONFIG:
             return{
                 ...state,
-                campaign_name:action.payload
+                campaign_name:action.payload.campaign_name,
+                campaign_receivers_type:action.payload.dd_type,
+                campaign_receivers_id:action.payload.dd_id,
+                campaign_receivers_name:action.payload.dd_name,
             };
         default:
             return state;

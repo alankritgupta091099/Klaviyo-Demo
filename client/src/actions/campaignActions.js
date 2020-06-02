@@ -12,10 +12,10 @@ export const initializeCampaign = (newCampaign) => dispatch =>{
     })
 }
 
-export const changeCampaignConfig = (campaign_name) => dispatch =>{
+export const changeCampaignConfig = ( campaign_name , dd_type , dd_id , dd_name ) => dispatch =>{
     dispatch({
         type:CHANGE_CAMPAIGN_CONFIG,
-        payload:campaign_name
+        payload: { campaign_name , dd_type , dd_id , dd_name }
     })
 }
 
@@ -25,6 +25,9 @@ export const saveCampaign = ( data ) => ( dispatch , getState ) =>{
         campaign:{
             campaign_id:getState().campaign.campaign_id,
             campaign_name:getState().campaign.campaign_name,
+            campaign_receivers_type:getState().campaign.campaign_receivers_type,
+            campaign_receivers_id:getState().campaign.campaign_receivers_id,
+            campaign_receivers_name:getState().campaign.campaign_receivers_name,
             campaign_content:{
                 from:data.from,
                 replyTo:data.replyTo,
