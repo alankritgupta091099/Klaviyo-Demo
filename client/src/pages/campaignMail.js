@@ -37,7 +37,7 @@ class createCampaigns extends Component {
             value:new Date()
         }
         this.toggle = this.toggle.bind(this);
-        this.time=["12:00 am","12:15 am","12:30 am","12:45 am"]
+        this.time=["12:00","12:15","12:30","12:45","01:00","01:15","01:30","01:45","02:00","02:15","02:30","02:45","03:00"];
     }
 
     toggle(){
@@ -129,7 +129,7 @@ class createCampaigns extends Component {
     }
 
     render() {
-       // if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
+       if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
         return (
             <>
             <Container fluid={true}>
@@ -354,7 +354,7 @@ class createCampaigns extends Component {
                 </ModalBody>
                 <ModalFooter>
                   {(this.state.value&&this.state.time)?<button className="btn btn-primary" onClick={()=>{
-                      this.props.scheduleCampaignMail(this.state,this.state.time,this.state.value)
+                      this.props.scheduleCampaignMail(this.state,this.state.time,`${this.state.value.getDate()}/${this.state.value.getMonth()}/${this.state.value.getFullYear()}`)
                     }}>Schedule Campaign</button>:""}
                   <button className="btn btn-secondary" onClick={this.toggle3}>Cancel</button>
                 </ModalFooter>
@@ -362,7 +362,7 @@ class createCampaigns extends Component {
             </Container>
             </>
         ) 
-     // else return<Redirect to="/campaigns/create"/>
+     else return<Redirect to="/campaigns/create"/>
     }
 }
 
