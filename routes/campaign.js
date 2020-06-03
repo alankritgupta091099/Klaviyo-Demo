@@ -89,6 +89,19 @@ router.post('/:user_id/sendMail/:campaign_id',async(req,res)=>{
     })
 })
 
+router.post('/:user_id/scheduleMail/:campaign_id',async(req,res)=>{
+    Campaign.findOneAndUpdate({"user._id":req.params.user_id,"campaign.campaign_id":req.params.campaign_id},{
+        campaign:req.body.campaign
+    },{ new: true ,  useFindAndModify: false })
+    .then(campaign=>{
+        return res.status(200).json({msg:"Campaign Scheduled"});
+    })
+    .catch(err=>{
+        console.log(err)
+        return res.status(404).json({msg:'Can not find Campaign'})
+    })
+})
+
 let transporter=nodemailer.createTransport({
     service:'gmail',
     auth:{

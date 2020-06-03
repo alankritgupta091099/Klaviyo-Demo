@@ -8,11 +8,16 @@ import { EditorState } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { faClock , faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
 import { loadEmailList } from '../actions/emailActions.js';
-import { saveCampaign , sendMailCampaign } from '../actions/campaignActions.js';
+import { saveCampaign , sendMailCampaign , scheduleCampaignMail } from '../actions/campaignActions.js';
 
 class createCampaigns extends Component {
     constructor(props) {
@@ -21,13 +26,18 @@ class createCampaigns extends Component {
         this.state = {
             modal:false,
             modal2:false,
+            modal3:false,
+            ddDate:false,
+            ddTime:false,
             from:"",
             replyTo:"",
             subject:"",
             previewText:"",
-            editorState: EditorState.createEmpty()
+            editorState: EditorState.createEmpty(),
+            value:new Date()
         }
         this.toggle = this.toggle.bind(this);
+        this.time=["12:00 am","12:15 am","12:30 am","12:45 am"]
     }
 
     toggle(){
@@ -39,6 +49,24 @@ class createCampaigns extends Component {
     toggle2=()=>{
         this.setState({
         modal2: !this.state.modal2
+        })
+    }
+
+    toggle3=()=>{
+        this.setState({
+        modal3: !this.state.modal3
+        })
+    }
+
+    Datetoggle=()=>{
+        this.setState({
+        ddDate: !this.state.ddDate
+        })
+    }
+
+    Timetoggle=()=>{
+        this.setState({
+        ddTime: !this.state.ddTime
         })
     }
 
@@ -95,8 +123,13 @@ class createCampaigns extends Component {
         this.toggle2();
     }
 
+    onDateChange = value => {
+        console.log(value)
+        this.setState({ value })
+    }
+
     render() {
-        if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
+       // if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
         return (
             <>
             <Container fluid={true}>
@@ -191,7 +224,7 @@ class createCampaigns extends Component {
                                 <Button className="btn">Save Changes</Button>
                                 </Col>
                                 <Col xs={3}>
-                                <Button className="btn" onClick={this.props.sendMailCampaign}>Send Mail</Button>
+                                <Button className="btn" onClick={this.toggle3}>Send Campaign</Button>
                                 </Col>
                             </Row>
                         </Form>
@@ -246,10 +279,90 @@ class createCampaigns extends Component {
                 </ModalFooter>
               </form>
             </Modal>
+            <Modal isOpen={this.state.modal3} toggle={this.toggle3}>
+                <ModalHeader toggle={this.toggle3}>Ready to Send?</ModalHeader>                
+                <ModalBody>
+                  <Row style={{margin:'8px'}}><strong>Sending Strategy</strong></Row>
+                  <Row>
+                    <Col sm="6">
+                        <button class="demo" onClick={()=>{
+                            this.setState({scheduleRow:true})
+                        }}>
+                            <Card body className="text-center">
+                                <CardBody>
+                                    <CardTitle><FontAwesomeIcon icon={faClock} size="lg" /></CardTitle>
+                                    <CardSubtitle><strong>Schedule</strong></CardSubtitle>
+                                    <CardText>Choose a future date and time to send</CardText>          
+                                </CardBody>
+                            </Card>
+                        </button>
+                        {   
+                            (this.state.scheduleRow) ? <Row style={{margin:'8px'}}>
+                                <Row style={{margin:'8px'}}><strong>Choose Send time</strong></Row>
+                                <Row>
+                                    <Col>
+                                        <Dropdown isOpen={this.state.ddDate} toggle={this.Datetoggle}>
+                                            <DropdownToggle color="light" caret>
+                                                {`${this.state.value.getDate()}/${this.state.value.getMonth()}/${this.state.value.getFullYear()}`}
+                                            </DropdownToggle>
+                                            <DropdownMenu>
+                                                <Calendar
+                                                    onChange={this.onDateChange}
+                                                    value={this.state.value}
+                                                />
+                                            </DropdownMenu>
+                                        </Dropdown> 
+                                    </Col>
+                                    <Col>
+                                        <Dropdown isOpen={this.state.ddTime} toggle={this.Timetoggle}>
+                                            <DropdownToggle color="light" caret>
+                                                {this.state.time?this.state.time:"Select Time"}
+                                            </DropdownToggle>
+                                            <DropdownMenu>
+                                            {
+                                                this.time.map((item,index)=>{
+                                                    return <DropdownItem key={index} onClick={()=>{
+                                                        this.setState({
+                                                            time:item
+                                                        })
+                                                    }}>{item}</DropdownItem>
+                                                })
+                                            }
+                                            </DropdownMenu>
+                                        </Dropdown>                    
+                                    </Col>
+                                </Row>
+                            </Row> :""
+                        }
+                    </Col>
+                    <Col sm="6">
+                        <button class="demo" onClick={async()=>{
+                            //await this.props.saveCampaign(this.state)
+                            await this.props.sendMailCampaign()
+                            this.props.history.push('/campaigns')
+                          }}>
+                            <Card body className="text-center">    
+                                <CardBody >
+                                    <CardTitle><FontAwesomeIcon icon={faPaperPlane} size="lg" /></CardTitle>
+                                    <CardSubtitle><strong>Send Now</strong></CardSubtitle>
+                                    <CardText>Start sending your campaign immediately</CardText>          
+                                </CardBody>
+                            </Card>
+                        </button>
+                    </Col>
+                  </Row>
+                </ModalBody>
+                <ModalFooter>
+                  {(this.state.value&&this.state.time)?<button className="btn btn-primary" onClick={()=>{
+                      this.props.scheduleCampaignMail(this.state,this.state.time,this.state.value)
+                    }}>Schedule Campaign</button>:""}
+                  <button className="btn btn-secondary" onClick={this.toggle3}>Cancel</button>
+                </ModalFooter>
+            </Modal>
             </Container>
             </>
         ) 
-      else return<Redirect to="/campaigns/create"/>
+     // else return<Redirect to="/campaigns/create"/>
     }
 }
 
@@ -258,4 +371,4 @@ const mapStateToProps = ( state ) => ({
     campaign:state.campaign
 })
 
-export default connect( mapStateToProps , { loadEmailList , saveCampaign , sendMailCampaign } )(createCampaigns);
+export default connect( mapStateToProps , { loadEmailList , saveCampaign , sendMailCampaign , scheduleCampaignMail } )(createCampaigns);

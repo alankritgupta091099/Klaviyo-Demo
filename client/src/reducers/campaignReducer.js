@@ -1,4 +1,4 @@
-import { UPDATE_CAMPAIGN , INITIALIZE_CAMPAIGN , LOAD_ALL_CAMPAIGNS , LOAD_SELECTED_CAMPAIGN , NO_CAMPAIGNS , DELETE_CAMPAIGN , CHANGE_CAMPAIGN_CONFIG , INSTANT_MAIL_CAMPAIGN , SCHEDULE_MAIL_CAMPAIGN } from '../actions/types.js'
+import { UPDATE_CAMPAIGN , INITIALIZE_CAMPAIGN , LOAD_ALL_CAMPAIGNS , LOAD_SELECTED_CAMPAIGN , NO_CAMPAIGNS , DELETE_CAMPAIGN , CHANGE_CAMPAIGN_CONFIG , INSTANT_MAIL_CAMPAIGN , SCHEDULED_MAIL_CAMPAIGN } from '../actions/types.js'
 
 const initialState={
     campaign_name: null,
@@ -14,6 +14,10 @@ const initialState={
         email_name:"",
         email_id:"",
         email_html:""
+    },
+    campaign_timing:{
+        date:"",
+        time:""
     },
     allcampaigns:[]
 }
@@ -51,6 +55,10 @@ export default function ( state = initialState , action ) {
                 campaign_receivers_type:action.payload.campaign_receivers_type,
                 campaign_receivers_id:action.payload.campaign_receivers_id,   
                 campaign_receivers_name:action.payload.campaign_receivers_name, 
+                campaign_timing:{
+                    time:action.payload.campaign_timing.time,
+                    date:action.payload.campaign_timing.date,
+                },
                 campaign_content:{
                     from:action.payload.campaign_content.from,
                     replyTo:action.payload.campaign_content.replyTo,
@@ -78,6 +86,14 @@ export default function ( state = initialState , action ) {
                 campaign_receivers_type:action.payload.dd_type,
                 campaign_receivers_id:action.payload.dd_id,
                 campaign_receivers_name:action.payload.dd_name,
+            };
+        case SCHEDULED_MAIL_CAMPAIGN:
+            return{
+                ...state,
+                campaign_timing:{
+                    time:action.payload.time,
+                    date:action.payload.date
+                }
             };
         default:
             return state;

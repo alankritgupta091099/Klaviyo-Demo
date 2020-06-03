@@ -1,4 +1,4 @@
-import { UPDATE_CAMPAIGN , INITIALIZE_CAMPAIGN , LOAD_ALL_CAMPAIGNS , LOAD_SELECTED_CAMPAIGN , NO_CAMPAIGNS , DELETE_CAMPAIGN , CHANGE_CAMPAIGN_CONFIG , INSTANT_MAIL_CAMPAIGN , SCHEDULE_MAIL_CAMPAIGN } from './types.js'
+import { UPDATE_CAMPAIGN , INITIALIZE_CAMPAIGN , LOAD_ALL_CAMPAIGNS , LOAD_SELECTED_CAMPAIGN , NO_CAMPAIGNS , DELETE_CAMPAIGN , CHANGE_CAMPAIGN_CONFIG , INSTANT_MAIL_CAMPAIGN , SCHEDULED_MAIL_CAMPAIGN } from './types.js'
 
 import axios from 'axios';
 import { returnErrors , clearErrors , returnNotifications , clearNotifications } from './popUpActions';
@@ -28,6 +28,7 @@ export const saveCampaign = ( data ) => ( dispatch , getState ) =>{
             campaign_receivers_type:getState().campaign.campaign_receivers_type,
             campaign_receivers_id:getState().campaign.campaign_receivers_id,
             campaign_receivers_name:getState().campaign.campaign_receivers_name,
+            campaign_timing:getState().campaign.campaign_timing,
             campaign_content:{
                 from:data.from,
                 replyTo:data.replyTo,
@@ -45,7 +46,8 @@ export const saveCampaign = ( data ) => ( dispatch , getState ) =>{
             payload:data
         })
         dispatch(returnNotifications("Campaign Saved"))
-        console.log(res.data)
+        return res.data
+        //console.log(res.data)
     })
     .catch(err=>{
         dispatch(returnErrors(err.data,err.status,"CAMPAIGN_NOT_SAVED"))
@@ -111,6 +113,41 @@ export const sendMailCampaign =()=> ( dispatch , getState )=>{
     })
     .catch(err=>{
         dispatch(returnErrors(err.data,err.status,"MAIL_NOT_SENT"))
+        console.log(err)
+    })
+}
+
+export const scheduleCampaignMail=(data,time,date)=>(dispatch,getState)=>{
+    axios.post(`${API_URL}/campaigns/${getState().auth.user._id}/scheduleMail/${getState().campaign.campaign_id}`,{
+        user:getState().auth.user,
+        campaign:{
+            campaign_id:getState().campaign.campaign_id,
+            campaign_name:getState().campaign.campaign_name,
+            campaign_receivers_type:getState().campaign.campaign_receivers_type,
+            campaign_receivers_id:getState().campaign.campaign_receivers_id,
+            campaign_receivers_name:getState().campaign.campaign_receivers_name,
+            campaign_timing:{time,date}, 
+            campaign_content:{
+                from:data.from,
+                replyTo:data.replyTo,
+                subject:data.subject,
+                previewText:data.previewText,
+                email_name:data.email_name,
+                email_id:data.email_id,
+                email_html:data.email_html
+            }
+        }
+    }, tokenConfig(getState) )
+    .then(res=>{
+        dispatch({
+            type:SCHEDULED_MAIL_CAMPAIGN,
+            payload:{time,date}
+        })
+        dispatch(returnNotifications("Campaign Scheduled"))
+        return res.data
+    })
+    .catch(err=>{
+        dispatch(returnErrors(err.data,err.status,"CAMPAIGN_NOT_SCHEDULED"))
         console.log(err)
     })
 }
