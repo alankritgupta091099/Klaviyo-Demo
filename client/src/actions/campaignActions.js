@@ -1,4 +1,4 @@
-import { UPDATE_CAMPAIGN , INITIALIZE_CAMPAIGN , LOAD_ALL_CAMPAIGNS , LOAD_SELECTED_CAMPAIGN , NO_CAMPAIGNS , DELETE_CAMPAIGN , CHANGE_CAMPAIGN_CONFIG } from './types.js'
+import { UPDATE_CAMPAIGN , INITIALIZE_CAMPAIGN , LOAD_ALL_CAMPAIGNS , LOAD_SELECTED_CAMPAIGN , NO_CAMPAIGNS , DELETE_CAMPAIGN , CHANGE_CAMPAIGN_CONFIG , INSTANT_MAIL_CAMPAIGN , SCHEDULE_MAIL_CAMPAIGN } from './types.js'
 
 import axios from 'axios';
 import { returnErrors , clearErrors , returnNotifications , clearNotifications } from './popUpActions';
@@ -103,13 +103,14 @@ export const loadSelectedCampaign = ( campaign_id ) => {
 } //currently not working
 
 export const sendMailCampaign =()=> ( dispatch , getState )=>{
-    axios.post(`${API_URL}/campaigns/${getState().auth.user._id}/sendMail/${getState().campaign.campaign_id}` , tokenConfig(getState) )
+    axios.post(`${API_URL}/campaigns/${getState().auth.user._id}/sendMail/${getState().campaign.campaign_id}` ,{}, tokenConfig(getState))
     .then(res=>{
         dispatch({
-            type:UPDATE_CAMPAIGN,
+            type:INSTANT_MAIL_CAMPAIGN
         })
     })
     .catch(err=>{
+        dispatch(returnErrors(err.data,err.status,"MAIL_NOT_SENT"))
         console.log(err)
     })
 }
