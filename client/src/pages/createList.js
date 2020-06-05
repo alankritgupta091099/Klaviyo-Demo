@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
-import { nameList } from '../actions/listActions.js';
+import { nameList , saveList } from '../actions/listActions.js';
 
 class createList extends Component {
     constructor(props){
@@ -101,10 +101,15 @@ class createList extends Component {
                                                             </tbody>
                                                         </Table>
                                                         <Row>            
-                                                            <Col style={{marginLeft:'70%'}}>
-                                                                <Button color="secondary" size="md" onClick={()=>this.props.history.push('/lists-campaigns')}>Back</Button>  
+                                                            <Col style={{marginLeft:'60%'}}>
+                                                                <Button color="primary" size="md" onClick={()=>{
+                                                                    this.props.nameList(this.state.list_name,this.state.list_type)
+                                                                    this.props.saveList(this.props.list.list_data)
+                                                                    this.props.history.push('/lists-campaigns')
+
+                                                                }}>Save & Go Back</Button>  
                                                             
-                                                                <Button color="primary" size="md"  style={{marginLeft:'40px'}} onClick={()=>this.setState({list_type:"",list_data:[]})} ><span id="segment-del"><strong>Change List</strong></span></Button>
+                                                                <Button color="secondary" size="md"  style={{marginLeft:'40px'}} onClick={()=>this.setState({list_type:"",list_data:[]})} ><span id="segment-del"><strong>Change List</strong></span></Button>
                                                             </Col>
                                                         </Row>
                                                     </div>              
@@ -180,5 +185,5 @@ const mapStateToProps = state => ({
     list:state.list
 })
 
-export default connect( mapStateToProps , { nameList } )(createList);
+export default connect( mapStateToProps , { nameList , saveList } )(createList);
 

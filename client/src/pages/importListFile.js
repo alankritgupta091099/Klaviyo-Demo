@@ -108,7 +108,10 @@ class createList extends Component {
                                                 <CSVReader onFileLoaded={(data, fileInfo) => this.renderListItem(data,fileInfo)} />
                                             </Col>
                                             <Col sm={6}>
-                                                <h1>Instructions</h1>
+                                                <h5>Instructions</h5>
+                                                <p>
+                                                    Import the .csv file with 1st column named Email.
+                                                </p>
                                             </Col>
                                         </Row>
                                         <Row>            

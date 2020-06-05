@@ -17,7 +17,7 @@ const initialState={
     },
     campaign_timing:{
         date:"",
-        time:""
+        dateAndTime:""
     },
     allcampaigns:[]
 }
@@ -56,7 +56,7 @@ export default function ( state = initialState , action ) {
                 campaign_receivers_id:action.payload.campaign_receivers_id,   
                 campaign_receivers_name:action.payload.campaign_receivers_name, 
                 campaign_timing:{
-                    time:action.payload.campaign_timing.time,
+                    dateAndTime:action.payload.campaign_timing.dateAndTime,
                     date:action.payload.campaign_timing.date,
                 },
                 campaign_content:{
@@ -91,7 +91,7 @@ export default function ( state = initialState , action ) {
             return{
                 ...state,
                 campaign_timing:{
-                    time:action.payload.time,
+                    dateAndTime:action.payload.dateAndTime,
                     date:action.payload.date
                 }
             };

@@ -128,7 +128,7 @@ class createCampaigns extends Component {
                                             }
                                         </DropdownMenu>
                                     </Dropdown>
-                                <InputGroupAddon addonType="prepend"><Button>Reset</Button></InputGroupAddon>                            
+                                <InputGroupAddon addonType="prepend"><Button onClick={()=>this.setState({ddVal:""})}>Reset</Button></InputGroupAddon>                            
                             </InputGroup>
                             <FormGroup>
                                 <p>Use Smart sending ?</p>

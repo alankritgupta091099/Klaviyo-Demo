@@ -117,7 +117,8 @@ export const sendMailCampaign =()=> ( dispatch , getState )=>{
     })
 }
 
-export const scheduleCampaignMail=(data,time,date)=>(dispatch,getState)=>{
+export const scheduleCampaignMail=(data,date,dateAndTime)=>(dispatch,getState)=>{
+    console.log(dateAndTime)
     axios.post(`${API_URL}/campaigns/${getState().auth.user._id}/scheduleMail/${getState().campaign.campaign_id}`,{
         user:getState().auth.user,
         campaign:{
@@ -126,7 +127,7 @@ export const scheduleCampaignMail=(data,time,date)=>(dispatch,getState)=>{
             campaign_receivers_type:getState().campaign.campaign_receivers_type,
             campaign_receivers_id:getState().campaign.campaign_receivers_id,
             campaign_receivers_name:getState().campaign.campaign_receivers_name,
-            campaign_timing:{time,date}, 
+            campaign_timing:{date,dateAndTime}, 
             campaign_content:{
                 from:data.from,
                 replyTo:data.replyTo,
@@ -141,7 +142,7 @@ export const scheduleCampaignMail=(data,time,date)=>(dispatch,getState)=>{
     .then(res=>{
         dispatch({
             type:SCHEDULED_MAIL_CAMPAIGN,
-            payload:{time,date}
+            payload:{date,dateAndTime}
         })
         dispatch(returnNotifications("Campaign Scheduled"))
         return res.data

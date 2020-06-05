@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const nodemailer=require('nodemailer')
 const cron = require("node-cron");
+const moment = require('moment');
 
 const Campaign = require('../models/campaign');
 const List = require('../models/list');
@@ -103,29 +104,31 @@ router.post('/:user_id/scheduleMail/:campaign_id',async(req,res)=>{
     })
 })
 
-cron.schedule("*/1 * * * *",function(){
-    const today=new Date();
-    var currDate=`${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`
-    var currTime=`${today.getHours()<10 ? '0'+today.getHours():today.getHours()}:${today.getMinutes()<10? '0'+today.getMinutes():today.getMinutes()}`
-    Campaign.findOne({"campaign.campaign_timing.date":currDate,"campaign.campaign_timing.time":currTime})
-    .then(campaign=>{
-        if(campaign){
-            const { campaign_receivers_type , campaign_receivers_id , campaign_content } = campaign.campaign;
-            if(campaign_receivers_type==='List'){
-                List.findOne({'list.list_id':campaign_receivers_id})
-                .then(item=>{
-                    emailArr=item.list.list_data;
-                    sendMail(emailArr,campaign_content)
-                    console.log("Mailed sent at", currTime)
-                })
-                .catch(err=>{
-                    console.log(err)
-                })
-            } else {
-                console.log("error")
+cron.schedule("*/15 * * * *",function(){
+    console.log("cron job started",moment().format('hh:mm'))
+    var currDate=moment().format('YYYY-MM-DD');
+    Campaign.find({"campaign.campaign_timing.date":currDate})
+    .then(campaignArr=>{
+        campaignArr.forEach(campaign => {
+            if(moment(campaign.campaign.campaign_timing.dateAndTime).isBetween(moment(),moment().add(16,'m'))){
+                const { campaign_receivers_type , campaign_receivers_id , campaign_content } = campaign.campaign;
+                if(campaign_receivers_type==='List'){
+                    List.findOne({'list.list_id':campaign_receivers_id})
+                    .then(item=>{
+                        emailArr=item.list.list_data;
+                        sendMail(emailArr,campaign_content)
+                        console.log("Mailed sent at",moment().format('hh:mm'))
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
+                } else {
+                    console.log("error")
+                }
             }
-        }
+        });
     })
+    console.log("cron job ended")
 })
 
 let transporter=nodemailer.createTransport({

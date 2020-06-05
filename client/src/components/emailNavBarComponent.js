@@ -25,7 +25,7 @@ const NavComp = (props) => {
         <div className="container-fluid">
             <Navbar light expand="md" >
                 <div className="header-secondary-container">
-                    <NavbarBrand href="/" style={{color: '#DFE3E6'}}>Klaviyo</NavbarBrand>
+                    <NavbarBrand href="/" style={{color: '#DFE3E6'}}>Email Flows</NavbarBrand>
                     <Dropdown isOpen={dropdownOpen} toggle={ddtoggle}>
                         <DropdownToggle caret>
                            {

@@ -11,8 +11,10 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { faClock , faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+// import Calendar from 'react-calendar';
+// import 'react-calendar/dist/Calendar.css';
+// import Moment from 'react-moment';
+import { formatISO } from 'date-fns';
 
 import NavComp from '../components/MainNavbar.js';
 import { MainSidebar } from '../components/MainSidebar.js';
@@ -34,10 +36,9 @@ class createCampaigns extends Component {
             subject:"",
             previewText:"",
             editorState: EditorState.createEmpty(),
-            value:new Date()
+            date:new Date()
         }
         this.toggle = this.toggle.bind(this);
-        this.time=["12:00","12:15","12:30","12:45","01:00","01:15","01:30","01:45","02:00","02:15","02:30","02:45","03:00"];
     }
 
     toggle(){
@@ -129,7 +130,7 @@ class createCampaigns extends Component {
     }
 
     render() {
-       if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
+      if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
         return (
             <>
             <Container fluid={true}>
@@ -301,35 +302,30 @@ class createCampaigns extends Component {
                                 <Row style={{margin:'8px'}}><strong>Choose Send time</strong></Row>
                                 <Row>
                                     <Col>
-                                        <Dropdown isOpen={this.state.ddDate} toggle={this.Datetoggle}>
-                                            <DropdownToggle color="light" caret>
-                                                {`${this.state.value.getDate()}/${this.state.value.getMonth()}/${this.state.value.getFullYear()}`}
-                                            </DropdownToggle>
-                                            <DropdownMenu>
-                                                <Calendar
-                                                    onChange={this.onDateChange}
-                                                    value={this.state.value}
-                                                />
-                                            </DropdownMenu>
-                                        </Dropdown> 
+                                        <FormGroup>
+                                            <Label for="exampleDate">Date</Label>
+                                            <Input
+                                            type="date"
+                                            name="date"
+                                            id="exampleDate"
+                                            value={this.state.date}
+                                            placeholder="date placeholder"
+                                            onChange={this.onChange}
+                                            />
+                                        </FormGroup>
                                     </Col>
                                     <Col>
-                                        <Dropdown isOpen={this.state.ddTime} toggle={this.Timetoggle}>
-                                            <DropdownToggle color="light" caret>
-                                                {this.state.time?this.state.time:"Select Time"}
-                                            </DropdownToggle>
-                                            <DropdownMenu>
-                                            {
-                                                this.time.map((item,index)=>{
-                                                    return <DropdownItem key={index} onClick={()=>{
-                                                        this.setState({
-                                                            time:item
-                                                        })
-                                                    }}>{item}</DropdownItem>
-                                                })
-                                            }
-                                            </DropdownMenu>
-                                        </Dropdown>                    
+                                    <FormGroup>
+                                        <Label for="exampleTime">Time</Label>
+                                        <Input
+                                        type="time"
+                                        name="time"
+                                        value={this.state.time}
+                                        id="exampleTime"
+                                        placeholder="time placeholder"
+                                        onChange={this.onChange}
+                                        />
+                                    </FormGroup>
                                     </Col>
                                 </Row>
                             </Row> :""
@@ -337,8 +333,10 @@ class createCampaigns extends Component {
                     </Col>
                     <Col sm="6">
                         <button class="demo" onClick={async()=>{
-                            //await this.props.saveCampaign(this.state)
-                            await this.props.sendMailCampaign()
+                            await this.props.saveCampaign(this.state)
+                            setTimeout(() => {
+                                this.props.sendMailCampaign()
+                            }, 1000);                            
                             this.props.history.push('/campaigns')
                           }}>
                             <Card body className="text-center">    
@@ -353,8 +351,16 @@ class createCampaigns extends Component {
                   </Row>
                 </ModalBody>
                 <ModalFooter>
-                  {(this.state.value&&this.state.time)?<button className="btn btn-primary" onClick={()=>{
-                      this.props.scheduleCampaignMail(this.state,this.state.time,`${this.state.value.getDate()}/${this.state.value.getMonth()}/${this.state.value.getFullYear()}`)
+                  {(this.state.date&&this.state.time)?<button className="btn btn-primary" onClick={()=>{
+                    this.props.scheduleCampaignMail(this.state,this.state.date,formatISO(new Date(
+                          this.state.date.split('-')[0],
+                          (this.state.date.split('-')[1]-1),
+                          this.state.date.split('-')[2],
+                          this.state.time.split(':')[0],
+                          this.state.time.split(':')[1],
+                          52
+                        )))
+                    this.toggle3()
                     }}>Schedule Campaign</button>:""}
                   <button className="btn btn-secondary" onClick={this.toggle3}>Cancel</button>
                 </ModalFooter>
