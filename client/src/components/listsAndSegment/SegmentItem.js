@@ -25,7 +25,8 @@ export class SegmentItem extends Component {
             modal1:false,
             modal2:false,
             modal3:false,
-            ddVal:""
+            ddVal:"",
+            new:true
         }
         this.toggle = this.toggle.bind(this);
     }
@@ -63,7 +64,7 @@ export class SegmentItem extends Component {
         this.props.saveVal(null,null,null,this.props.OR_id,obj.id)
     }
 
-    componentDidMount(){
+    componentDidMount(){ //used to render for the first time while loading
         if(this.props.dd_id && Object.keys(this.props.item).length>1){
             var obj = SegmentConditions.find(element=>{
                 return element.id==this.props.dd_id
@@ -125,6 +126,83 @@ export class SegmentItem extends Component {
                     personVal:this.props.item.person.val
                 })
             } else if(this.props.dd_id==7){
+                this.setState({
+                    ddVal:{
+                        id:7,
+                        text:obj.text                        
+                    },                
+                    attributeVal:this.props.item.attribute.val,
+                    personVal:this.props.item.person.val,
+                    possibilityVal:this.props.item.possibility.val,
+                })
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps,prevState){ // use this to render after removal of element
+        // if(this.props!=prevProps)
+        //     console.log(prevProps,this.props)
+        if(this.props!=prevProps && this.props.dd_id && Object.keys(this.props.item).length>1){
+            var obj = SegmentConditions.find(element=>{
+                return element.id==this.props.dd_id
+            })
+            if(this.props.dd_id==1 && this.props.item.metric && this.props.item.frequency && this.props.item.time){
+                    this.setState({
+                    ddVal:{
+                        id:1,
+                        text:obj.text                        
+                    },                
+                    metricVal:this.props.item.metric.val,
+                    freqVal:this.props.item.frequency.val,
+                    timeVal:this.props.item.time.val
+                })
+            } else if(this.props.dd_id==2  && this.props.item.dimensions && this.props.item.condition && this.props.item.type ){
+                this.setState({
+                    ddVal:{
+                        id:2,
+                        text:obj.text                        
+                    },                
+                    dimensionVal:this.props.item.dimensions.val,
+                    conditionVal:this.props.item.condition.val,
+                    typeVal:this.props.item.type.val
+                })
+            } else if(this.props.dd_id==3 && this.props.item.location && this.props.item.region){
+                this.setState({
+                    ddVal:{
+                        id:3,
+                        text:obj.text                        
+                    },                
+                    locationVal:this.props.item.location.val,
+                    regionVal:this.props.item.region.val
+                })
+            } else if(this.props.dd_id==4 && this.props.item.person && this.props.item.dimensions && this.props.item.countries){
+                this.setState({
+                    ddVal:{
+                        id:4,
+                        text:obj.text                        
+                    },                
+                    personVal:this.props.item.person.val,
+                    dimensionVal2:this.props.item.dimensions.val,
+                    countryVal:this.props.item.countries.val
+                })
+            } else if(this.props.dd_id==5 && this.props.item.person && this.props.item.lists){
+                this.setState({
+                    ddVal:{
+                        id:5,
+                        text:obj.text                        
+                    },                
+                    personVal:this.props.item.person.val,
+                    listVal:this.props.item.lists.val
+                })
+            } else if(this.props.dd_id==6 && this.props.item.person){
+                this.setState({
+                    ddVal:{
+                        id:6,
+                        text:obj.text                        
+                    },                
+                    personVal:this.props.item.person.val
+                })
+            } else if(this.props.dd_id==7 && this.props.item.attribute && this.props.item.person && this.props.item.possibility ){
                 this.setState({
                     ddVal:{
                         id:7,
@@ -702,6 +780,7 @@ export class SegmentItemOR extends Component{
                 }
             }
         });
+        //console.log(this.state.arr)
         this.props.saveAndComponent(this.state.arr,this.props.item.AND_id);
         //console.log(this.state.arr)
     }
@@ -732,6 +811,15 @@ export class SegmentItemOR extends Component{
 
     componentDidMount(){
         if(Object.keys(this.props.item).length>1){
+            this.setState({
+                arr:this.props.item.orArr
+            })
+        }
+    }
+
+    componentDidUpdate(prevProps,prevState){
+        if(this.props!=prevProps){
+            console.log(prevProps,this.props)
             this.setState({
                 arr:this.props.item.orArr
             })

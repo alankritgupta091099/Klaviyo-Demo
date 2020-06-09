@@ -11,9 +11,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { faClock , faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import Calendar from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css';
-// import Moment from 'react-moment';
+import { faFont , faFile , faMagic } from '@fortawesome/free-solid-svg-icons';
 import { formatISO } from 'date-fns';
 
 import NavComp from '../components/MainNavbar.js';
@@ -205,26 +203,63 @@ class createCampaigns extends Component {
                                         )
                                     } else return (
                                         <>
-                                            <Col xs={4}>
-                                            <Button onClick={()=>this.props.history.push('/email-templates')}>Rich HTML</Button>
-                                            </Col>
-                                            <Col xs={4}>
-                                                <Button onClick={this.toggle2}>Text Based</Button>
-                                            </Col>
-                                            <Col xs={4}>
-                                                <Button onClick={this.populateEmailList}>Use From Templates</Button>
-                                            </Col>                                    
+                                            <Row style={{padding:'20px 0 0 40px'}}>
+                                                <Col sm="4">
+                                                    <button class="demo" onClick={(e)=>{
+                                                        e.preventDefault();
+                                                        this.props.history.push('/email-templates')
+                                                    }}>
+                                                    <Card body className="text-center" style={{width:'17rem',height:'10rem'}}>
+                                                    <CardBody>
+                                                    <CardTitle><FontAwesomeIcon icon={faMagic} size="lg" /></CardTitle>
+                                                    <CardSubtitle><strong>Rich HTML</strong></CardSubtitle>
+                                                    <CardText>Use Email builder to build the template</CardText>                                    
+                                                        </CardBody>
+                                                        </Card>
+                                                    </button>
+                                                </Col>
+                                                <Col sm="4">
+                                                    <button class="demo" onClick={(e)=>{
+                                                        e.preventDefault();
+                                                        this.toggle2();
+                                                    }}>
+                                                    <Card body className="text-center" style={{width:'17rem',height:'10rem'}}>
+                                                    <CardBody>
+                                                    <CardTitle><FontAwesomeIcon icon={faFont} size="lg" /></CardTitle>
+                                                    <CardSubtitle><strong>Text Based</strong></CardSubtitle>
+                                                    <CardText>For Text only Emails</CardText>                                    
+                                                        </CardBody>
+                                                        </Card>
+                                                    </button>
+                                                </Col>
+                                                <Col sm="4">
+                                                    <button class="demo" onClick={(e)=>{
+                                                        e.preventDefault();
+                                                        this.populateEmailList()
+                                                    }}>
+                                                    <Card body className="text-center" style={{width:'17rem',height:'10rem'}}>
+                                    
+                                                    <CardBody >
+                                                    <CardTitle><FontAwesomeIcon icon={faFile} size="lg" /></CardTitle>
+                                                    <CardSubtitle><strong>Use Template</strong></CardSubtitle>
+                                                    <CardText>Choose from you library</CardText>                                    
+                                                        </CardBody>
+                                                        </Card>
+                                                        </button>
+                                                </Col>
+                                            </Row>
                                         </>
                                     )                                    
                                 })()
                             }
                             </Row>
                             <br/>
+                            <hr/>
                             <Row>
-                                <Col xs={3}>
+                                <Col xs={3} style={{marginLeft:'20%'}}>
                                 <Button className="btn">Save Changes</Button>
                                 </Col>
-                                <Col xs={3}>
+                                <Col xs={3} style={{marginLeft:'10%'}}>
                                 <Button className="btn" onClick={this.toggle3}>Send Campaign</Button>
                                 </Col>
                             </Row>
@@ -245,12 +280,10 @@ class createCampaigns extends Component {
                                 return (
                                     <ListGroupItem key={entry.email.email_id}>
                                     <Row>
-                                        <Col xs={6}>
+                                        <Col xs={12}>
                                             {entry.email.email_name}
-                                        </Col>
-                                        <Col xs={6}>
-                                            <Button onClick={this.reviewFunction.bind(this,entry.email)}>Select</Button>
-                                        </Col>
+                                            <Button style={{float:'right'}} onClick={this.reviewFunction.bind(this,entry.email)}>Select</Button>
+                                        </Col> 
                                     </Row>
                                     </ListGroupItem>
                                 )

@@ -92,8 +92,8 @@ class createSegment extends Component {
                 arr:[{AND_id:uuidv4()}]
             })
         }
-
-        if(this.props.segment_id) return (
+        //if(this.props.segment_id) 
+        return (
             <>
             <Container fluid={true}>
              <NavComp/>            
@@ -185,7 +185,7 @@ class createSegment extends Component {
             </Container>
             </>
         )
-        else return <Redirect to="/lists-campaigns"/>
+       // else return <Redirect to="/lists-campaigns"/>
     }
 }
 

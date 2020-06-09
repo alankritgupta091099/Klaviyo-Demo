@@ -48,7 +48,7 @@ class createCampaigns extends Component {
     }
 
     render() {
-        if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
+       if( this.props.campaign.campaign_name && this.props.campaign.campaign_id)
         return (
             <>
             <Container fluid={true}>
@@ -130,44 +130,45 @@ class createCampaigns extends Component {
                                     </Dropdown>
                                 <InputGroupAddon addonType="prepend"><Button onClick={()=>this.setState({ddVal:""})}>Reset</Button></InputGroupAddon>                            
                             </InputGroup>
-                            <FormGroup>
-                                <p>Use Smart sending ?</p>
-                                <FormGroup check>
+                            <FormGroup style={{margin:'10px'}}>
+                                <Label>Use Smart sending ?</Label>
+                                <FormGroup check style={{margin:'10px'}}>
                                     <Label check>
                                         <Input type="radio" name="radio1"/>{' '}
                                         Yes, do not send this campaign to people who received an email in the last 16 hours.
                                     </Label>
                                 </FormGroup>
-                                <FormGroup check>
+                                <FormGroup check style={{margin:'10px'}}>
                                     <Label check>
                                         <Input type="radio" name="radio1"/>{' '}                                
                                         No, send this campaign to everyone.
                                     </Label>
                                 </FormGroup>
                             </FormGroup>     
-                            <FormGroup>
+                            <FormGroup style={{margin:'10px'}}>
                                 <p>Use UTM Tracking?</p>
-                                <FormGroup check>
+                                <FormGroup check style={{margin:'10px'}}>
                                 <Label check>
                                     <Input type="radio" name="radio2" />{' '}                                
                                     Do not use UTM Tracking for this campaign.
                                 </Label>
                                 </FormGroup>
-                                <FormGroup check>
+                                <FormGroup check style={{margin:'10px'}}>
                                 <Label check>
                                     <Input type="radio" name="radio2" />{' '}                                
                                     Use account defaults for UTM Tracking for this campaign.
                                 </Label>
                                 </FormGroup>
-                                <FormGroup check>
+                                <FormGroup check style={{margin:'10px'}}>
                                 <Label check>
                                     <Input type="radio" name="radio2" />{' '}                                
                                     Use custom values for UTM Tracking for this campaign.
                                 </Label>
                                 </FormGroup>
-                                <Row>
+                                <hr style={{margin:"2rem 0"}}/>
+                                <Row style={{margin:'15px 0 0 20rem'}}>
                                     <Col>
-                                        <Button color="secondary" size="md"><Link to="/campaigns">Back</Link></Button>
+                                        <Button color="secondary" size="md" style={{ marginLeft:'12rem'}}><Link to="/campaigns" style={{color:'white'}}>Back</Link></Button>
                                     </Col>
                                     <Col>
                                         <Button color="primary" size="md">Save & Continue to Content</Button>
@@ -183,7 +184,7 @@ class createCampaigns extends Component {
             </Container>
             </>
         ) 
-        else return <Redirect to="/campaigns"/>
+       else return <Redirect to="/campaigns"/>
     }
 }
 const mapStateToProps = ( state ) => ({

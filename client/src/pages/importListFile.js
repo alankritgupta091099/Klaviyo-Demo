@@ -37,6 +37,8 @@ class createList extends Component {
                     dataArr.push(element[0])
                 }
             })
+        }else {
+            console.log("Can not Read file")
         }
         this.setState({
             dataArr:dataArr
