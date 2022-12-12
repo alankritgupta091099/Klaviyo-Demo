@@ -20,7 +20,7 @@
     "dotenv": "^8.2.0",
     "draft-convert": "^2.1.10",
     "draft-js": "^0.11.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "handlebars": "^4.7.6",
     "html-react-parser": "^0.10.3",
     "jsonwebtoken": "^8.5.1",
